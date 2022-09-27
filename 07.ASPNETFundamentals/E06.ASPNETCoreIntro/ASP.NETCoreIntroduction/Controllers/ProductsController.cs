@@ -38,5 +38,18 @@
         {
             return View(this.products);
         }
+
+        public IActionResult ById(int id)
+        {
+            var product = this.products
+                .FirstOrDefault(p => p.Id == id);
+
+            if (product == null)
+            {
+                return BadRequest();
+            }
+
+            return View(product);
+        }
     }
 }
