@@ -1,9 +1,12 @@
-﻿using ASP.NETCoreIntroduction.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-
-namespace ASP.NETCoreIntroduction.Controllers
+﻿namespace ASP.NETCoreIntroduction.Controllers
 {
+    using System.Diagnostics;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using Models;
+
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
