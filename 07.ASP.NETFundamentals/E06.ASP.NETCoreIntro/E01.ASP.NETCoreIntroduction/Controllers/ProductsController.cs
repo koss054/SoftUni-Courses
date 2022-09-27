@@ -1,5 +1,7 @@
 ﻿namespace ASP.NETCoreIntroduction.Controllers
 {
+    using System.Text.Json;
+
     using Microsoft.AspNetCore.Mvc;
 
     using Models;
@@ -50,6 +52,17 @@
             }
 
             return View(product);
+        }
+
+        [HttpGet]
+        public IActionResult AllAsJson()
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true
+            };
+
+            return Json(products, options);
         }
     }
 }
