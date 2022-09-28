@@ -64,5 +64,19 @@
 
             return Json(products, options);
         }
+
+        [HttpGet]
+        public IActionResult AllAsText()
+        {
+            var text = string.Empty;
+
+            foreach(var product in products)
+            {
+                text += $"Product {product.Id}: {product.Name} - {product.Price} lv.";
+                text += "\r\n";
+            }
+
+            return Content(text);
+        }
     }
 }
