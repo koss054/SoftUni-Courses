@@ -24,7 +24,11 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             SeedPosts();
-            builder.Entity<Post>();
+            builder
+                .Entity<Post>()
+                .HasData(this.FirstPost,
+                         this.SecondPost,
+                         this.ThirdPost);
 
             base.OnModelCreating(builder);
         }
