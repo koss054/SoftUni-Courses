@@ -17,6 +17,7 @@ namespace TaskBoardApp.Data
         public TaskBoardAppDbContext(DbContextOptions<TaskBoardAppDbContext> options)
             : base(options)
         {
+            this.Database.Migrate();
         }
 
         public DbSet<Board> Boards { get; set; }
