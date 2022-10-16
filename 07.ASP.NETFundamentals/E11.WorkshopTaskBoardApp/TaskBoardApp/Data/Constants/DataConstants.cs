@@ -19,7 +19,8 @@
 
         public class Board
         {
-            public const int Bo
+            public const int BoardNameMinLength = 3;
+            public const int BoardNameMaxLength = 30;
         }
     }
 }
