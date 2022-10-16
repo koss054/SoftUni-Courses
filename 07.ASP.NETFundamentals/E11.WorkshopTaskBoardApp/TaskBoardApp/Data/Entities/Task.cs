@@ -9,7 +9,7 @@ namespace TaskBoardApp.Data.Entities
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(TaskTItleMaxLength)]
+        [MaxLength(TaskTitleMaxLength)]
         public string Title { get; set; }
 
         [Required]
