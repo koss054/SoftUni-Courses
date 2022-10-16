@@ -6,6 +6,7 @@
         {
             public const int FirstNameMaxLength = 15;
             public const int LastNameMaxLength = 15;
+            public const int UsernameMaxLength = 20;
         }
 
         public class Task
