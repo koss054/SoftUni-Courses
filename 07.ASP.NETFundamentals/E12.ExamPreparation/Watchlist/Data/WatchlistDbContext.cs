@@ -32,7 +32,7 @@ namespace Watchlist.Data
                 .HasMaxLength(EmailMaxLength)
                 .IsRequired();
 
-           /* builder
+            builder
                 .Entity<Genre>()
                 .HasData(new Genre()
                 {
@@ -59,7 +59,7 @@ namespace Watchlist.Data
                     Id = 5,
                     Name = "Romantic"
                 });
-           */
+
             base.OnModelCreating(builder);
         }
 

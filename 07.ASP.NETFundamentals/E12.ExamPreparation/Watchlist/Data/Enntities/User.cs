@@ -4,11 +4,6 @@ namespace Watchlist.Data.Enntities
 {
     public class User : IdentityUser
     {
-        public User()
-        {
-            this.UsersMovies = new List<UserMovie>();
-        }
-
-        public List<UserMovie> UsersMovies { get; set; }
+        public List<UserMovie> UsersMovies { get; set; } = new List<UserMovie>();
     }
 }

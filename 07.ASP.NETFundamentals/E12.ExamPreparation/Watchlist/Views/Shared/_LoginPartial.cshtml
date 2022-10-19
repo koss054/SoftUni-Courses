@@ -1,4 +1,10 @@
-﻿@*<ul class="navbar-nav">
+﻿@using Microsoft.AspNetCore.Identity;
+@using Watchlist.Data.Enntities;
+
+@inject SignInManager<User> SignInManager;
+@inject UserManager<User> UserManager;
+
+<ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
@@ -17,4 +23,3 @@
         </li>
     }
 </ul>
-*@

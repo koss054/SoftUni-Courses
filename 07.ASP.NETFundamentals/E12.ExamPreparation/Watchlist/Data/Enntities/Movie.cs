@@ -7,11 +7,6 @@ namespace Watchlist.Data.Enntities
 {
     public class Movie
     {
-        public Movie()
-        {
-            this.UsersMovies = new List<UserMovie>();
-        }
-
         [Key]
         public int Id { get; set; }
 
@@ -34,6 +29,6 @@ namespace Watchlist.Data.Enntities
         [ForeignKey(nameof(GenreId))]
         public Genre? Genre { get; set; }
 
-        public List<UserMovie> UsersMovies { get; set; }
+        public List<UserMovie> UsersMovies { get; set; } = new List<UserMovie>();
     }
 }
