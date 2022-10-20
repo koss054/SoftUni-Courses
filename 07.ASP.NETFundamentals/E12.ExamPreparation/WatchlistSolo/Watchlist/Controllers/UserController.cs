@@ -63,7 +63,7 @@
                 }
             }
 
-            ModelState.AddModelError(string.Empty, ErrorMessages.InvalidUser);
+            ModelState.AddModelError(string.Empty, ErrorMessages.InvalidUserDetails);
 
             return View(model);
         }

@@ -12,6 +12,8 @@
 
             public const int MinPasswordLength = 5;
             public const int MaxPasswordLength = 20;
+
+            public const string UsernameDisplayName = "Username";
         }
 
         public class Movie

@@ -1,5 +1,6 @@
 ﻿namespace Watchlist.Models
 {
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
     using static Data.Constants.DataConstants.User;
@@ -7,6 +8,7 @@
     public class RegisterViewModel
     {
         [Required]
+        [DisplayName(UsernameDisplayName)]
         [StringLength(MaxUserNameLength, MinimumLength = MinUserNameLength)]
         public string UserName { get; set; } = null!;
 
