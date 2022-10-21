@@ -4,6 +4,7 @@
 
     using Data;
     using Data.Constants;
+    using Data.Entities;
     using Contracts;
     using Models.Movies;
 
@@ -16,6 +17,7 @@
             context = _context;
         }
 
+        // Get movies from the database.
         public async Task<IEnumerable<MovieViewModel>> GetAllAsync()
         {
             return await context.Movies
@@ -53,6 +55,28 @@
                     Rating = um.Movie.Rating,
                     Genre = um.Movie.Genre.Name
                 }).ToList();
+        }
+
+        // Add movies to the database.
+        public async Task AddMovieAsync(AddMovieViewModel model)
+        {
+            var entity = new Movie()
+            {
+                Title = model.Title,
+                Director = model.Director,
+                ImageUrl = model.ImageUrl,
+                Rating = model.Rating,
+                GenreId = model.GenreId
+            };
+
+            await context.Movies.AddAsync(entity);
+            await context.SaveChangesAsync();
+        }
+
+        // Gets genres for movies.
+        public async Task<IEnumerable<Genre>> GetGenresAsync()
+        {
+            return await context.Genres.ToListAsync();
         }
     }
 }
