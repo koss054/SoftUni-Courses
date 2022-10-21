@@ -38,6 +38,7 @@
                 .Where(u => u.Id == userId)
                 .Include(u => u.UsersMovies)
                 .ThenInclude(um => um.Movie)
+                .ThenInclude(m => m.Genre)
                 .FirstOrDefaultAsync();
 
             if (user == null)
@@ -54,7 +55,7 @@
                     ImageUrl = um.Movie.ImageUrl,
                     Rating = um.Movie.Rating,
                     Genre = um.Movie.Genre.Name
-                }).ToList();
+                });
         }
 
         // Add movies to the database.
@@ -70,6 +71,66 @@
             };
 
             await context.Movies.AddAsync(entity);
+            await context.SaveChangesAsync();
+        }
+
+        // Add movies to watched.
+        public async Task AddMovieToCollection(string userId, int movieId)
+        {
+            var user = await context.Users
+                .Where(u => u.Id == userId)
+                .Include(u => u.UsersMovies)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException(ErrorMessages.InvalidUserId);
+            }
+
+            var movie = await context.Movies
+                .FirstOrDefaultAsync(m => m.Id == movieId);
+
+            if (movie == null)
+            {
+                throw new ArgumentException(ErrorMessages.InvalidMovieId);
+            }
+
+            if (!user.UsersMovies.Any(um => um.MovieId == movieId))
+            {
+                user.UsersMovies.Add(new UserMovie()
+                {
+                    UserId = userId,
+                    User = user,
+                    MovieId = movieId,
+                    Movie = movie
+                });
+
+                await context.SaveChangesAsync();
+            }
+        }
+
+        // Remove movies from watched.
+        public async Task RemoveMovieFromCollection(string userId, int movieId)
+        {
+            var user = await context.Users
+                .Where(u => u.Id == userId)
+                .Include(u => u.UsersMovies)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                throw new ArgumentException(ErrorMessages.InvalidUserId);
+            }
+
+            var movie = user.UsersMovies
+                .FirstOrDefault(um => um.MovieId == movieId);
+
+            if (movie == null)
+            {
+                throw new ArgumentException(ErrorMessages.InvalidMovieId);
+            }
+
+            context.Remove(movie);
             await context.SaveChangesAsync();
         }
 

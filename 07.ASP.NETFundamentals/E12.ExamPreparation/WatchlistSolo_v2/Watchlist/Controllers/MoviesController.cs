@@ -1,11 +1,12 @@
 ﻿namespace Watchlist.Controllers
 {
+    using System.Security.Claims;
+
     using Microsoft.AspNetCore.Mvc;
 
     using Contracts;
-    using Microsoft.AspNetCore.Authorization.Infrastructure;
-    using System.Security.Claims;
-    using Watchlist.Models.Movies;
+    using Models.Movies;
+    using Data.Constants;
 
     public class MoviesController : BaseController
     {
@@ -28,9 +29,20 @@
         public async Task<IActionResult> Watched()
         {
             var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-            var model = await movieService.GetWatchedAsync(userId);
 
-            return View(model);
+            try
+            {
+                var model = await movieService.GetWatchedAsync(userId);
+
+                return View(model);
+            }
+            catch (ArgumentException ae)
+            {
+                TempData[nameof(ErrorMessages)] = ae.Message;
+
+                return RedirectToAction(nameof(All));
+            }
+
         }
 
         [HttpGet]
@@ -54,7 +66,43 @@
 
             await movieService.AddMovieAsync(model);
 
-            return RedirectToAction("All", "Movies");
+            return RedirectToAction(nameof(All));
+        }
+
+        public async Task<IActionResult> AddToCollection(int movieId)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            try
+            {
+                await movieService.AddMovieToCollection(userId, movieId);
+
+                return RedirectToAction(nameof(All));
+            }
+            catch (ArgumentException ae)
+            {
+                TempData[nameof(ErrorMessages)] = ae.Message;
+
+                return RedirectToAction(nameof(All));
+            }
+        }
+
+        public async Task<IActionResult> RemoveFromCollection(int movieId)
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            try
+            {
+                await movieService.RemoveMovieFromCollection(userId, movieId);
+
+                return RedirectToAction(nameof(All));
+            }
+            catch (ArgumentException ae)
+            {
+                TempData[nameof(ErrorMessages)] = ae.Message;
+
+                return RedirectToAction(nameof(All));
+            }
         }
     }
 }
