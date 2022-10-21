@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Watchlist.Data;
 using Watchlist.Data.Entities;
+using Watchlist.Contracts;
+using Watchlist.Services;
 
 using static Watchlist.Data.Constants.DataConstants.User;
 
@@ -26,6 +28,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IMovieService, MovieService>();
 
 var app = builder.Build();
 
