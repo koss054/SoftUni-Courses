@@ -7,6 +7,12 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
+@if (TempData[nameof(ErrorMessages)] != null)
+{
+    <div class="alert alert-dismissible alert-danger">
+        @TempData[nameof(ErrorMessages)]
+    </div>
+}
 
 <div class="text-center row">
     @foreach (var movie in Model)

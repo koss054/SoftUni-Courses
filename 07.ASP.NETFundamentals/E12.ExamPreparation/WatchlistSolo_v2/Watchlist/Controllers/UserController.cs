@@ -34,7 +34,7 @@
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("All", "Movies");
             }
 
             var model = new LoginViewModel();
@@ -59,7 +59,7 @@
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("All", "Movies");
                 }
             }
 
@@ -74,7 +74,7 @@
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("All", "Movies");
             }
 
             var model = new RegisterViewModel();
@@ -101,7 +101,7 @@
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(Login));
             }
 
             foreach (var item in result.Errors)

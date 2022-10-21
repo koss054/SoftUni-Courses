@@ -95,13 +95,13 @@
             {
                 await movieService.RemoveMovieFromCollection(userId, movieId);
 
-                return RedirectToAction(nameof(All));
+                return RedirectToAction(nameof(Watched));
             }
             catch (ArgumentException ae)
             {
                 TempData[nameof(ErrorMessages)] = ae.Message;
 
-                return RedirectToAction(nameof(All));
+                return RedirectToAction(nameof(Watched));
             }
         }
     }
