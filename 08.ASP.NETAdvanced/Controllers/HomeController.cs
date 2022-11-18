@@ -2,14 +2,16 @@
 {
     using System.Diagnostics;
 
-    using HouseRenting.Models;
     using Microsoft.AspNetCore.Mvc;
+
+    using HouseRenting.Models;
+    using HouseRenting.Models.Home;
 
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
-            return View();
+            return View(new IndexViewModel());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
