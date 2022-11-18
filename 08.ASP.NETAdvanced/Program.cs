@@ -1,6 +1,8 @@
-using HouseRenting.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+using HouseRenting.Data;
+using HouseRenting.Services.Houses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,9 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => {
     options.Password.RequireUppercase = false;
     })
     .AddEntityFrameworkStores<HouseRentingDbContext>();
+
+builder.Services.AddTransient<IHouseService, HouseService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
