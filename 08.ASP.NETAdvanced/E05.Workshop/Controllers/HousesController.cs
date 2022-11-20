@@ -60,6 +60,29 @@
         [Authorize]
         public IActionResult Add(HouseFormModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                model.Categories = this.houseService.AllCategories();
+                return View(model);
+            }
+
+            if (!this.agentService.ExistsById(this.User.Id()))
+            {
+                return RedirectToAction(nameof(AgentController.Become), "Agents");
+            }
+
+            if (!this.houseService.CategoryExists(model.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(model.CategoryId),
+                    "Category does not exist.");
+            }
+
+            var agentId = this.agentService.GetAgentId(this.User.Id());
+
+            var newHouseId = this.houseService.Create(model.Title, model.Address,
+                model.Description, model.ImageUrl, model.PricePerMonth,
+                model.CategoryId, agentId);
+
             return RedirectToAction(nameof(Details), new { id = "1" });
         }
 
