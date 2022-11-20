@@ -2,6 +2,7 @@
 {
     using Data;
     using Services.Models;
+    using Services.Houses.Models;
 
     public class HouseService : IHouseService
     {
@@ -22,6 +23,16 @@
                     Title = c.Title,
                     ImageUrl = c.ImageUrl
                 }).Take(3);
+        }
+
+        public IEnumerable<HouseCategoryServiceModel> AllCategories()
+        {
+            return this.data.Categories
+                .Select(c => new HouseCategoryServiceModel
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToList();
         }
     }
 }
