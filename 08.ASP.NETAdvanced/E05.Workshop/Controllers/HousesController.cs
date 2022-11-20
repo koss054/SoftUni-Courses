@@ -4,15 +4,21 @@
     using Microsoft.AspNetCore.Mvc;
 
     using Models.Houses;
+    using Infrastructure;
     using Services.Houses;
+    using Services.Agents;
 
     public class HousesController : Controller
     {
         private readonly IHouseService houseService;
+        private readonly IAgentService agentService;
 
-        public HousesController(IHouseService _houseService)
+        public HousesController(
+            IHouseService _houseService,
+            IAgentService _agentService)
         {
             houseService = _houseService;
+            agentService = _agentService;
         }
 
         public IActionResult Index()
@@ -39,7 +45,15 @@
         [Authorize]
         public IActionResult Add()
         {
-            return View();
+            if (!this.agentService.ExistsById(this.User.Id()))
+            {
+                return RedirectToAction(nameof(AgentController.Become), "Agents");
+            }
+
+            return View(new HouseFormModel
+            {
+                Categories = this.houseService.AllCategories()
+            });
         }
 
         [HttpPost]
