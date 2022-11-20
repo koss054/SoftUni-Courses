@@ -41,5 +41,12 @@
             this.data.Agents.Add(agent);
             this.data.SaveChanges();
         }
+
+        public int GetAgentId(string userId)
+        {
+            return this.data.Agents
+                .FirstOrDefault(a => a.UserId == userId)
+                .Id;
+        }
     }
 }

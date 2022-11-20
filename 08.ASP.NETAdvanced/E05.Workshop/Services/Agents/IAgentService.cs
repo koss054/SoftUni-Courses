@@ -9,5 +9,7 @@
         bool UserHasRents(string userId);
 
         void Create(string userId, string phoneNumber);
+
+        int GetAgentId(string userId);
     }
 }
