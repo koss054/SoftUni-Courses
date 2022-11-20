@@ -4,9 +4,17 @@
     using Microsoft.AspNetCore.Mvc;
 
     using Models.Houses;
+    using Services.Houses;
 
     public class HousesController : Controller
     {
+        private readonly IHouseService houseService;
+
+        public HousesController(IHouseService _houseService)
+        {
+            houseService = _houseService;
+        }
+
         public IActionResult Index()
         {
             return View();
