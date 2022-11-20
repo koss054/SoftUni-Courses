@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 using HouseRenting.Data;
 using HouseRenting.Services.Houses;
+using HouseRenting.Services.Agents;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => {
     .AddEntityFrameworkStores<HouseRentingDbContext>();
 
 builder.Services.AddTransient<IHouseService, HouseService>();
+builder.Services.AddTransient<IAgentService, AgentService>();
 
 builder.Services.AddControllersWithViews();
 
