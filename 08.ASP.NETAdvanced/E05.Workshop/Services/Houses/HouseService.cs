@@ -1,7 +1,7 @@
 ﻿namespace HouseRenting.Services.Houses
 {
-    using HouseRenting.Data;
-    using Models.Houses;
+    using Data;
+    using Services.Models;
 
     public class HouseService : IHouseService
     {

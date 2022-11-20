@@ -1,6 +1,6 @@
 ﻿namespace HouseRenting.Services.Houses
 {
-    using Models.Houses;
+    using Services.Models;
 
     public interface IHouseService
     {
