@@ -70,11 +70,58 @@
             int currentPage = 1,
             int housesPerPage = 1)
         {
-            throw new NotImplementedException();
+            var housesQuery = this.data.Houses.AsQueryable();
+            if (!string.IsNullOrWhiteSpace(category))
+            {
+                housesQuery = this.data.Houses
+                    .Where(h => h.Category.Name == category);
+            }
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                housesQuery = housesQuery.Where(h =>
+                    h.Title.ToLower().Contains(searchTerm.ToLower()) ||
+                    h.Address.ToLower().Contains(searchTerm.ToLower()) ||
+                    h.Description.ToLower().Contains(searchTerm.ToLower()));
+            }
+
+            housesQuery = sorting switch
+            {
+                HouseSorting.Price => housesQuery
+                    .OrderBy(h => h.PricePerMonth),
+                HouseSorting.NotRentedFirst => housesQuery
+                    .OrderBy(h => h.RenterId != null)
+                    .ThenByDescending(h => h.Id),
+                _ => housesQuery.OrderByDescending(h => h.Id)
+            };
+
+            var houses = housesQuery
+                .Skip((currentPage - 1) * housesPerPage)
+                .Take(housesPerPage)
+                .Select(h => new HouseServiceModel
+                {
+                    Id = h.Id,
+                    Title = h.Title,
+                    Address = h.Address,
+                    ImageUrl = h.ImageUrl,
+                    IsRented = h.RenterId != null,
+                    PricePerMonth = h.PricePerMonth
+                })
+                .ToList();
+
+            var totalHouses = housesQuery.Count();
+            return new HouseQueryServiceModel()
+            {
+                TotalHousesCount = totalHouses,
+                Houses = houses
+            };
         }
         public IEnumerable<string> AllCategoryNames()
         {
-            throw new NotImplementedException();
+            return this.data.Categories
+                .Select(c => c.Name)
+                .Distinct()
+                .ToList();
         }
     }
 }
