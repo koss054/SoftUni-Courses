@@ -39,5 +39,7 @@
         bool HasAgentWithId(int houseId, string currentUserId);
 
         int GetHouseCategoryId(int houseId);
+
+        void Delete(int houseId);
     }
 }

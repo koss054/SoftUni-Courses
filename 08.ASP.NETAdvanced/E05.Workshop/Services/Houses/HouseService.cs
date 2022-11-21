@@ -206,6 +206,13 @@
             return this.data.Houses.Find(houseId).CategoryId;
         }
 
+        public void Delete(int houseId)
+        {
+            var house = this.data.Houses.Find(houseId);
+            this.data.Remove(house);
+            this.data.SaveChanges();
+        }
+
         private List<HouseServiceModel> ProjectToModel(List<House> houses)
         {
             var resultHouses = houses
