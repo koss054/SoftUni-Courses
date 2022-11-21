@@ -120,14 +120,61 @@
         [Authorize]
         public IActionResult Edit(int id)
         {
-            return View(new HouseFormModel());
+            if (!this.houseService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            if (!this.houseService.HasAgentWithId(id, this.User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            var house = this.houseService.HouseDetailsById(id);
+            var houseCategoryId = this.houseService.GetHouseCategoryId(house.Id);
+            var houseModel = new HouseFormModel()
+            {
+                Title = house.Title,
+                Address = house.Address,
+                Description = house.Description,
+                ImageUrl = house.ImageUrl,
+                PricePerMonth = house.PricePerMonth,
+                CategoryId = houseCategoryId,
+                Categories = this.houseService.AllCategories()
+            };
+
+            return View(houseModel);
         }
 
         [HttpPost]
         [Authorize]
         public IActionResult Edit(int id, HouseFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = "1" });
+            if (!this.houseService.Exists(id))
+            {
+                return this.View();
+            }
+
+            if (!this.houseService.HasAgentWithId(id, this.User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            if (!this.houseService.CategoryExists(model.CategoryId))
+            {
+                this.ModelState.AddModelError(nameof(model.CategoryId),
+                    "Category does not exist.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                model.Categories = this.houseService.AllCategories();
+                return View(model);
+            }
+
+            this.houseService.Edit(id, model.Title, model.Address, model.Description,
+                model.ImageUrl, model.PricePerMonth, model.CategoryId);
+            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         [Authorize]
