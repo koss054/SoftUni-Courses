@@ -140,6 +140,34 @@
             return ProjectToModel(houses);
         }
 
+        public bool Exists(int id)
+        {
+            return this.data.Houses.Any(h => h.Id == id);
+        }
+
+        public HouseDetailsServiceModel HouseDetailsById(int id)
+        {
+            return this.data.Houses
+                .Where(h => h.Id == id)
+                .Select(h => new HouseDetailsServiceModel()
+                {
+                    Id = h.Id,
+                    Title = h.Title,
+                    Address = h.Address,
+                    Description = h.Description,
+                    ImageUrl = h.ImageUrl,
+                    PricePerMonth = h.PricePerMonth,
+                    IsRented = h.RenterId != null,
+                    Category = h.Category.Name,
+                    Agent = new Agents.Models.AgentServiceModel()
+                    {
+                        PhoneNumber = h.Agent.PhoneNumber,
+                        Email = h.Agent.User.Email
+                    }
+                })
+                .FirstOrDefault();
+        }
+
         private List<HouseServiceModel> ProjectToModel(List<House> houses)
         {
             var resultHouses = houses
