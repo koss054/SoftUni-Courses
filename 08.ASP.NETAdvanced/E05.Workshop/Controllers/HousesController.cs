@@ -180,13 +180,42 @@
         [Authorize]
         public IActionResult Delete(int id)
         {
-            return View(new HouseDetailsViewModel());
+            if (!this.houseService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            if (!this.houseService.HasAgentWithId(id, this.User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            var house = this.houseService.HouseDetailsById(id);
+            var model = new HouseDetailsViewModel()
+            {
+                Title = house.Title,
+                Address = house.Address,
+                ImageUrl = house.ImageUrl
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [Authorize]
         public IActionResult Delete(HouseDetailsViewModel model)
         {
+            if (!this.houseService.Exists(model.Id))
+            {
+                return BadRequest();
+            }
+
+            if (!this.houseService.HasAgentWithId(model.Id, this.User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            this.houseService.Delete(model.Id);
             return RedirectToAction(nameof(All));
         }
 
