@@ -168,6 +168,44 @@
                 .FirstOrDefault();
         }
 
+        public void Edit(int houseId, string title, string address,
+            string description, string imageUrl, decimal price, int categoryId)
+        {
+            var house = this.data.Houses.Find(houseId);
+
+            house.Title = title;
+            house.Address = address;
+            house.Description = description;
+            house.ImageUrl = imageUrl;
+            house.PricePerMonth = price;
+            house.CategoryId = categoryId;
+
+            this.data.SaveChanges();
+        }
+
+        public bool HasAgentWithId(int houseId, string currentUserId)
+        {
+            var house = this.data.Houses.Find(houseId);
+            var agent = this.data.Agents.FirstOrDefault(a => a.Id == house.AgentId);
+
+            if (agent != null)
+            {
+                return false;
+            }
+            
+            if (agent.UserId != currentUserId)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public int GetHouseCategoryId(int houseId)
+        {
+            return this.data.Houses.Find(houseId).CategoryId;
+        }
+
         private List<HouseServiceModel> ProjectToModel(List<House> houses)
         {
             var resultHouses = houses
