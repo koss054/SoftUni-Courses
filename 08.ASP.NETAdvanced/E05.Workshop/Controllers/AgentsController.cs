@@ -7,11 +7,11 @@
     using Services.Agents;
     using Infrastructure;
 
-    public class AgentController : Controller
+    public class AgentsController : Controller
     {
         private readonly IAgentService agentService;
 
-        public AgentController(IAgentService _agentService)
+        public AgentsController(IAgentService _agentService)
         {
             agentService = _agentService;
         }

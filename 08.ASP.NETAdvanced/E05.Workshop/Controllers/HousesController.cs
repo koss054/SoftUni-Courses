@@ -26,9 +26,20 @@
             return View();
         }
 
-        public IActionResult All()
+        public IActionResult All([FromQuery] AllHousesQueryModel query)
         {
-            return View(new AllHousesQueryModel());
+            var queryResult = this.houseService.All(
+                query.Category,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllHousesQueryModel.HousesPerPage);
+            query.TotalHousesCount = queryResult.TotalHousesCount;
+            query.Houses = queryResult.Houses;
+
+            var houseCategories = this.houseService.AllCategories();
+            //query.Categories = houseCategories;
+            return View(query);
         }
 
         [Authorize]
@@ -47,7 +58,7 @@
         {
             if (!this.agentService.ExistsById(this.User.Id()))
             {
-                return RedirectToAction(nameof(AgentController.Become), "Agents");
+                return RedirectToAction(nameof(AgentsController.Become), "Agents");
             }
 
             return View(new HouseFormModel
@@ -68,7 +79,7 @@
 
             if (!this.agentService.ExistsById(this.User.Id()))
             {
-                return RedirectToAction(nameof(AgentController.Become), "Agents");
+                return RedirectToAction(nameof(AgentsController.Become), "Agents");
             }
 
             if (!this.houseService.CategoryExists(model.CategoryId))
