@@ -7,7 +7,6 @@
     using Infrastructure;
     using Services.Houses;
     using Services.Agents;
-    using Services.Houses.Models;
 
     public class HousesController : Controller
     {
@@ -46,20 +45,7 @@
         [Authorize]
         public IActionResult Mine()
         {
-            IEnumerable<HouseServiceModel> myHouses = null;
-            var userId = this.User.Id();
-
-            if (this.agentService.ExistsById(userId))
-            {
-                var currentAgentId = this.agentService.GetAgentId(userId);
-                myHouses = this.houseService.AllHousesByAgentId(currentAgentId);
-            }
-            else
-            {
-                myHouses = this.houseService.AllHousesByUserId(userId);
-            }
-
-            return View(myHouses);
+            return View(new AllHousesQueryModel());
         }
 
         public IActionResult Details(int id)
