@@ -4,6 +4,7 @@
     using Data.Entities;
     using Services.Models;
     using Services.Houses.Models;
+    using HouseRenting.Models;
 
     public class HouseService : IHouseService
     {
@@ -60,6 +61,20 @@
             this.data.Houses.Add(house);
             this.data.SaveChanges();
             return house.Id;
+        }
+        
+        public HouseQueryServiceModel All(
+            string category = null,
+            string searchTerm = null,
+            HouseSorting sorting = HouseSorting.Newest,
+            int currentPage = 1,
+            int housesPerPage = 1)
+        {
+            throw new NotImplementedException();
+        }
+        public IEnumerable<string> AllCategoryNames()
+        {
+            throw new NotImplementedException();
         }
     }
 }
