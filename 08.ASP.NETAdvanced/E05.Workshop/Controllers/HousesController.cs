@@ -64,7 +64,13 @@
 
         public IActionResult Details(int id)
         {
-            return View(new AllHousesQueryModel());
+            if (!this.houseService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            var houseModel = this.houseService.HouseDetailsById(id);
+            return View(houseModel);
         }
 
         [Authorize]
