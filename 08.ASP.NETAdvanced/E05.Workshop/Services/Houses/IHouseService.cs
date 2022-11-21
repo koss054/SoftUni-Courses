@@ -22,6 +22,11 @@
             HouseSorting sorting = HouseSorting.Newest,
             int currentPage = 1,
             int housesPerPage = 1);
+
         IEnumerable<string> AllCategoryNames();
+
+        IEnumerable<HouseServiceModel> AllHousesByAgentId(int agentId);
+
+        IEnumerable<HouseServiceModel> AllHousesByUserId(string userId);
     }
 }

@@ -123,5 +123,37 @@
                 .Distinct()
                 .ToList();
         }
+
+        public IEnumerable<HouseServiceModel> AllHousesByAgentId(int agentId)
+        {
+            var houses = this.data.Houses
+                .Where(h => h.AgentId == agentId)
+                .ToList();
+            return ProjectToModel(houses);
+        }
+
+        public IEnumerable<HouseServiceModel> AllHousesByUserId(string userId)
+        {
+            var houses = this.data.Houses
+                .Where(h => h.RenterId == userId)
+                .ToList();
+            return ProjectToModel(houses);
+        }
+
+        private List<HouseServiceModel> ProjectToModel(List<House> houses)
+        {
+            var resultHouses = houses
+                .Select(h => new HouseServiceModel()
+                {
+                    Id = h.Id,
+                    Title = h.Title,
+                    Address = h.Address,
+                    ImageUrl = h.ImageUrl,
+                    PricePerMonth = h.PricePerMonth,
+                    IsRented = h.RenterId != null
+                })
+                .ToList();
+            return resultHouses;
+        }
     }
 }
