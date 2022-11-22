@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IAgentService agentService
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -32,10 +34,13 @@
                                         asp-controller="Houses" asp-action="Mine">My Houses</a>
                                </li>
 
+                            @if (this.agentService.ExistsById(this.User.Id()))
+                            {
                                <li class="nav-item">
                                    <a class="nav-link text-dark" asp-area="" 
                                         asp-controller="Houses" asp-action="Add">Add Houses</a>
-                               </li> 
+                               </li>  
+                            }
                         }
                         
                     </ul>
