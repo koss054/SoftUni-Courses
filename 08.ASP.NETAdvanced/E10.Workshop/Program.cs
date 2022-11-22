@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 using HouseRenting.Data;
 using HouseRenting.Data.Entities;
+using HouseRenting.Services.Users;
 using HouseRenting.Services.Houses;
 using HouseRenting.Services.Agents;
 using HouseRenting.Services.Statistics;
@@ -24,6 +25,7 @@ builder.Services.AddDefaultIdentity<User>(options => {
     })
     .AddEntityFrameworkStores<HouseRentingDbContext>();
 
+builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IHouseService, HouseService>();
 builder.Services.AddTransient<IAgentService, AgentService>();
 builder.Services.AddTransient<IStatisticsService, StatisticsService>();
