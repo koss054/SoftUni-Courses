@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,7 +27,10 @@ builder.Services.AddTransient<IHouseService, HouseService>();
 builder.Services.AddTransient<IAgentService, AgentService>();
 builder.Services.AddTransient<IStatisticsService, StatisticsService>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+});
 
 var app = builder.Build();
 
