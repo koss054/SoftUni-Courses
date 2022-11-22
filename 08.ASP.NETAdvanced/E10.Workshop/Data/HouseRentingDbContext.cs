@@ -6,7 +6,7 @@
 
     using Data.Entities;
 
-    public class HouseRentingDbContext : IdentityDbContext
+    public class HouseRentingDbContext : IdentityDbContext<User>
     {
         public HouseRentingDbContext(DbContextOptions<HouseRentingDbContext> options)
             : base(options)
@@ -35,7 +35,7 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             SeedUsers();
-            builder.Entity<IdentityUser>()
+            builder.Entity<User>()
                 .HasData(this.AgentUser, this.GuestUser);
 
             SeedAgent();
@@ -57,8 +57,8 @@
             base.OnModelCreating(builder);
         }
 
-        private IdentityUser AgentUser { get; set; } = null!;
-        private IdentityUser GuestUser { get; set; } = null!;
+        private User AgentUser { get; set; } = null!;
+        private User GuestUser { get; set; } = null!;
         private Agent Agent { get; set; } = null!;
         private Category CottageCategory { get; set; } = null!;
         private Category SingleCategory { get; set; } = null!;
@@ -73,25 +73,29 @@
         {
             var hasher = new PasswordHasher<IdentityUser>();
 
-            this.AgentUser = new IdentityUser()
+            this.AgentUser = new User()
             {
                 Id = "dea12856-c198-4129-b3f3-b893d8395082",
                 UserName = "agent@mail.com",
                 NormalizedUserName = "agent@mail.com",
                 Email = "agent@mail.com",
-                NormalizedEmail = "agent@mail.com"
+                NormalizedEmail = "agent@mail.com",
+                FirstName = "Ivanskito",
+                LastName = "Ime"    
             };
 
             this.AgentUser.PasswordHash
                 = hasher.HashPassword(this.AgentUser, "agent123");
 
-            this.GuestUser = new IdentityUser()
+            this.GuestUser = new User()
             {
                 Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                 UserName = "guest@mail.com",
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
-                NormalizedEmail = "guest@mail.com"
+                NormalizedEmail = "guest@mail.com",
+                FirstName = "First Neim",
+                LastName = "POslednoto!1"
             };
 
             this.GuestUser.PasswordHash
