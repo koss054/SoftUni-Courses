@@ -242,6 +242,13 @@
             this.data.SaveChanges();
         }
 
+        public void Leave(int houseId)
+        {
+            var house = this.data.Houses.Find(houseId);
+            house.RenterId = null;
+            this.data.SaveChanges();
+        }
+
         private List<HouseServiceModel> ProjectToModel(List<House> houses)
         {
             var resultHouses = houses
