@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public class HouseServiceModel
+    public class HouseServiceModel : IHouseModel
     {
         public int Id { get; set; }
 

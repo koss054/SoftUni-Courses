@@ -6,7 +6,7 @@
 
     using static Data.DataConstants.House;
 
-    public class HouseFormModel
+    public class HouseFormModel : IHouseModel
     {
         [Required]
         [StringLength(MaxTitleLength, MinimumLength = MinTitleLength)]
