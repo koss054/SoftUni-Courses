@@ -223,6 +223,22 @@
         [Authorize]
         public IActionResult Rent(int id)
         {
+            if (!this.houseService.Exists(id))
+            {
+                return BadRequest();
+            }
+
+            if (!this.agentService.ExistsById(this.User.Id()))
+            {
+                return Unauthorized(id);
+            }
+
+            if (this.houseService.IsRented(id))
+            {
+                return BadRequest();
+            }
+
+            this.houseService.Rent(id, this.User.Id());
             return RedirectToAction(nameof(Mine));
         }
 
