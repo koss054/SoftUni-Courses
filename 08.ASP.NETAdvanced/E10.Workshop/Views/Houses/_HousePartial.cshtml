@@ -1,5 +1,8 @@
 ﻿@model HouseServiceModel
 
+@inject IHouseService houseService
+@inject IAgentService agentService
+
 <div class="col-md-4">
     <div class="card mb-3">
         <img class="card-img-top" src="@Model.ImageUrl" alt="House Image">
@@ -16,22 +19,25 @@
                asp-route-information="@Model.GetInformation()" class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated)
             {
-                <a asp-controller="Houses" asp-action="Edit" asp-route-id="@Model.Id"
-               class="btn btn-warning">Edit</a>
-                <a asp-controller="Houses" asp-action="Delete" asp-route-id="@Model.Id"
-               class="btn btn-danger">Delete</a>
+                @if (this.houseService.HasAgentWithId(Model.Id, this.User.Id()))
+                {
+                    <a asp-controller="Houses" asp-action="Edit" asp-route-id="@Model.Id"
+                    class="btn btn-warning">Edit</a>
+                     <a asp-controller="Houses" asp-action="Delete" asp-route-id="@Model.Id"
+                    class="btn btn-danger">Delete</a>
+                }
                 <p></p>
-                @if (!Model.IsRented)
+                @if (!Model.IsRented && !this.agentService.ExistsById(this.User.Id()))
                 {
                     <form class="input-group-sm" asp-controller="Houses"
-                  asp-action="Rent" asp-route-id="@Model.Id" method="post">
+                    asp-action="Rent" asp-route-id="@Model.Id" method="post">
                         <input class="btn btn-primary" type="submit" value="Rent" />
                     </form>
                 }
-                else
+                else if (this.houseService.IsRentedByUserWithId(Model.Id, this.User.Id()))
                 {
                     <form asp-controller="Houses" asp-action="Leave"
-                  asp-route-id="@Model.Id" method="post">
+                    asp-route-id="@Model.Id" method="post">
                         <input class="btn btn-primary" type="submit" value="Leave" />
                     </form>
                 }
