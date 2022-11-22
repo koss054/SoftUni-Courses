@@ -236,7 +236,7 @@
                 return BadRequest();
             }
 
-            if (!this.agentService.ExistsById(this.User.Id()))
+            if (this.agentService.ExistsById(this.User.Id()))
             {
                 return Unauthorized(id);
             }
