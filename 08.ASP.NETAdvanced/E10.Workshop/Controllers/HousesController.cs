@@ -62,7 +62,7 @@
             return View(myHouses);
         }
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id, string information)
         {
             if (!this.houseService.Exists(id))
             {
@@ -70,6 +70,12 @@
             }
 
             var houseModel = this.houseService.HouseDetailsById(id);
+
+            if (information != houseModel.GetInformation())
+            {
+                return BadRequest();
+            }
+
             return View(houseModel);
         }
 
@@ -114,7 +120,8 @@
                 model.Description, model.ImageUrl, model.PricePerMonth,
                 model.CategoryId, agentId);
 
-            return RedirectToAction(nameof(Details), new { id = "1" });
+            return RedirectToAction(nameof(Details), 
+                new { id = newHouseId, information = model.GetInformation() });
         }
 
         [Authorize]
@@ -174,7 +181,8 @@
 
             this.houseService.Edit(id, model.Title, model.Address, model.Description,
                 model.ImageUrl, model.PricePerMonth, model.CategoryId);
-            return RedirectToAction(nameof(Details), new { id = id });
+            return RedirectToAction(nameof(Details), 
+                new { id = id, information = model.GetInformation() });
         }
 
         [Authorize]
