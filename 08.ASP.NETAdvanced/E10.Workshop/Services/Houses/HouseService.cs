@@ -2,6 +2,7 @@
 {
     using Data;
     using Data.Entities;
+    using Services.Users;
     using Services.Models;
     using Services.Houses.Models;
     using HouseRenting.Models;
@@ -9,10 +10,14 @@
     public class HouseService : IHouseService
     {
         private readonly HouseRentingDbContext data;
+        private readonly IUserService userService;
 
-        public HouseService(HouseRentingDbContext _data)
+        public HouseService(
+            HouseRentingDbContext _data,
+            IUserService _userService)
         {
             data = _data;
+            userService = _userService;
         }
 
         public IEnumerable<HouseIndexServiceModel> LastThreeHouses()
@@ -162,6 +167,7 @@
                     Category = h.Category.Name,
                     Agent = new Agents.Models.AgentServiceModel()
                     {
+                        FullName = this.userService.UserFullName(h.Agent.UserId),
                         PhoneNumber = h.Agent.PhoneNumber,
                         Email = h.Agent.User.Email
                     }
