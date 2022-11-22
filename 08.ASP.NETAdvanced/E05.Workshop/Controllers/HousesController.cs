@@ -246,6 +246,18 @@
         [Authorize]
         public IActionResult Leave(int id)
         {
+            if (!this.houseService.Exists(id) ||
+                !this.houseService.IsRented(id))
+            {
+                return BadRequest();
+            }
+
+            if (!this.houseService.IsRentedByUserWithId(id, this.User?.Id()))
+            {
+                return Unauthorized();
+            }
+
+            this.houseService.Leave(id);
             return RedirectToAction(nameof(Mine));
         }
     }
