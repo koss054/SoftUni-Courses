@@ -1,0 +1,14 @@
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\obj\Debug\net6.0\HouseRenting.Services.csproj.AssemblyReference.cache
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\obj\Debug\net6.0\HouseRenting.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\obj\Debug\net6.0\HouseRenting.Services.AssemblyInfoInputs.cache
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\obj\Debug\net6.0\HouseRenting.Services.AssemblyInfo.cs
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\obj\Debug\net6.0\HouseRenting.Services.csproj.CoreCompileInputs.cache
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\bin\Debug\net6.0\HouseRenting.Services.deps.json
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\bin\Debug\net6.0\HouseRenting.Services.runtimeconfig.json
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\bin\Debug\net6.0\HouseRenting.Services.dll
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\bin\Debug\net6.0\ref\HouseRenting.Services.dll
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\bin\Debug\net6.0\HouseRenting.Services.pdb
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\obj\Debug\net6.0\HouseRenting.Services.dll
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\obj\Debug\net6.0\ref\HouseRenting.Services.dll
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\obj\Debug\net6.0\HouseRenting.Services.pdb
+C:\Users\kkostad\Documents\SoftUni-Courses\08.ASP.NETAdvanced\HouseRenting.Services\obj\Debug\net6.0\HouseRenting.Services.genruntimeconfig.cache
