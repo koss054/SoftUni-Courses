@@ -6,6 +6,8 @@
 
     using Data.Entities;
 
+    using static AdminConstants;
+
     public class HouseRentingDbContext : IdentityDbContext<User>
     {
         public HouseRentingDbContext(DbContextOptions<HouseRentingDbContext> options)
@@ -36,11 +38,14 @@
 
             SeedUsers();
             builder.Entity<User>()
-                .HasData(this.AgentUser, this.GuestUser);
+                .HasData(this.AgentUser, 
+                         this.GuestUser,
+                         this.AdminUser);
 
             SeedAgent();
             builder.Entity<Agent>()
-                .HasData(this.Agent);
+                .HasData(this.Agent,
+                         this.AdminAgent);
 
             SeedCategories();
             builder.Entity<Category>()
@@ -57,6 +62,8 @@
             base.OnModelCreating(builder);
         }
 
+        private User AdminUser { get; set; } = null!;
+        private Agent AdminAgent { get; set; } = null!;
         private User AgentUser { get; set; } = null!;
         private User GuestUser { get; set; } = null!;
         private Agent Agent { get; set; } = null!;
@@ -100,6 +107,20 @@
 
             this.GuestUser.PasswordHash
                 = hasher.HashPassword(this.AgentUser, "guest123");
+
+            this.AdminUser = new User()
+            {
+                Id = "bcb4f072-ecca-43c9-ab26-c060c6f364e4",
+                Email = AdminEmail,
+                NormalizedEmail = AdminEmail,
+                UserName = AdminEmail,
+                NormalizedUserName = AdminEmail,
+                FirstName = "Great",
+                LastName = "Admin"
+            };
+
+            this.AdminUser.PasswordHash =
+                 hasher.HashPassword(this.AgentUser, "admin123");
         }
 
         private void SeedAgent()
@@ -109,6 +130,14 @@
                 Id = 1,
                 PhoneNumber = "+359888888888",
                 UserId = this.AgentUser.Id
+            };
+
+            this.AdminAgent = new Agent()
+
+            {
+                Id = 999,
+                PhoneNumber = "+359123456789",
+                UserId = this.AdminUser.Id
             };
         }
 
