@@ -8,6 +8,6 @@
 
         public string Category { get; init; }
 
-        public AgentServiceModel Agent { get; init; }
+        public AgentServiceModel Agent { get; set; }
     }
 }
