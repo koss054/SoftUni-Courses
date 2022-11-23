@@ -5,6 +5,7 @@
     using Data.Entities;
     using Houses.Models;
     using Agents.Models;
+    using Services.Models;
 
     public class ServiceMappingProfile : Profile
     {
@@ -19,6 +20,10 @@
 
             this.CreateMap<Agent, AgentServiceModel>()
                 .ForMember(a => a.Email, cfg => cfg.MapFrom(a => a.User.Email));
+
+            this.CreateMap<House, HouseIndexServiceModel>();
+
+            this.CreateMap<Category, HouseCategoryServiceModel>();
         }
     }
 }

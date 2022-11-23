@@ -29,23 +29,15 @@
         {
             return this.data.Houses
                 .OrderByDescending(c => c.Id)
-                .Select(c => new HouseIndexServiceModel
-                {
-                    Id = c.Id,
-                    Title = c.Title,
-                    Address = c.Address,
-                    ImageUrl = c.ImageUrl
-                }).Take(3);
+                .ProjectTo<HouseIndexServiceModel>(this.mapper.ConfigurationProvider)
+                .Take(3);
         }
 
         public IEnumerable<HouseCategoryServiceModel> AllCategories()
         {
             return this.data.Categories
-                .Select(c => new HouseCategoryServiceModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                }).ToList();
+                .ProjectTo<HouseCategoryServiceModel>(this.mapper.ConfigurationProvider)
+                .ToList();
         }
 
         public bool CategoryExists(int categoryId)
