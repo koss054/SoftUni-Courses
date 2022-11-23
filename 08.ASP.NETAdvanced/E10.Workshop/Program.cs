@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 using HouseRenting.Data;
 using HouseRenting.Data.Entities;
+using HouseRenting.Infrastructure;
 using HouseRenting.Services.Users;
 using HouseRenting.Services.Houses;
 using HouseRenting.Services.Agents;
@@ -23,6 +24,7 @@ builder.Services.AddDefaultIdentity<User>(options => {
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
     })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<HouseRentingDbContext>();
 
 builder.Services.AddTransient<IUserService, UserService>();
@@ -72,5 +74,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+app.SeedAdmin();
 
 app.Run();
