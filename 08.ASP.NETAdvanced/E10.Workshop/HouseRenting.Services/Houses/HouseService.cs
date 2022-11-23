@@ -131,16 +131,20 @@
         {
             var houses = this.data.Houses
                 .Where(h => h.AgentId == agentId)
+                .ProjectTo<HouseServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
-            return ProjectToModel(houses);
+
+            return houses;
         }
 
         public IEnumerable<HouseServiceModel> AllHousesByUserId(string userId)
         {
             var houses = this.data.Houses
                 .Where(h => h.RenterId == userId)
+                .ProjectTo<HouseServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
-            return ProjectToModel(houses);
+
+            return houses;
         }
 
         public bool Exists(int id)
@@ -251,22 +255,6 @@
             var house = this.data.Houses.Find(houseId);
             house.RenterId = null;
             this.data.SaveChanges();
-        }
-
-        private List<HouseServiceModel> ProjectToModel(List<House> houses)
-        {
-            var resultHouses = houses
-                .Select(h => new HouseServiceModel()
-                {
-                    Id = h.Id,
-                    Title = h.Title,
-                    Address = h.Address,
-                    ImageUrl = h.ImageUrl,
-                    PricePerMonth = h.PricePerMonth,
-                    IsRented = h.RenterId != null
-                })
-                .ToList();
-            return resultHouses;
         }
     }
 }
