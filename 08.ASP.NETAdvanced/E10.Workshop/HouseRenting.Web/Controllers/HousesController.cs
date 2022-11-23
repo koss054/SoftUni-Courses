@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using AutoMapper;
 
     using Models.Houses;
     using Infrastructure;
@@ -13,13 +14,16 @@
     {
         private readonly IHouseService houseService;
         private readonly IAgentService agentService;
+        private readonly IMapper mapper;
 
         public HousesController(
             IHouseService _houseService,
-            IAgentService _agentService)
+            IAgentService _agentService,
+            IMapper _mapper)
         {
             houseService = _houseService;
             agentService = _agentService;
+            mapper = _mapper;
         }
 
         public IActionResult Index()
