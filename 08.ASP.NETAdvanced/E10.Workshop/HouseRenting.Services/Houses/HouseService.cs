@@ -1,5 +1,8 @@
 ﻿namespace HouseRenting.Services.Houses
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
     using Data;
     using Data.Entities;
     using Services.Users;
@@ -10,13 +13,16 @@
     {
         private readonly HouseRentingDbContext data;
         private readonly IUserService userService;
+        private readonly IMapper mapper;
 
         public HouseService(
             HouseRentingDbContext _data,
-            IUserService _userService)
+            IUserService _userService,
+            IMapper _mapper)
         {
             data = _data;
             userService = _userService;
+            mapper = _mapper;
         }
 
         public IEnumerable<HouseIndexServiceModel> LastThreeHouses()
@@ -103,15 +109,7 @@
             var houses = housesQuery
                 .Skip((currentPage - 1) * housesPerPage)
                 .Take(housesPerPage)
-                .Select(h => new HouseServiceModel
-                {
-                    Id = h.Id,
-                    Title = h.Title,
-                    Address = h.Address,
-                    ImageUrl = h.ImageUrl,
-                    IsRented = h.RenterId != null,
-                    PricePerMonth = h.PricePerMonth
-                })
+                .ProjectTo<HouseServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
 
             var totalHouses = housesQuery.Count();
