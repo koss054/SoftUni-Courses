@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using HouseRenting.Web.Infrastructure;
+using HouseRenting.Web.Controllers;
 using HouseRenting.Services.Users;
 using HouseRenting.Services.Houses;
 using HouseRenting.Services.Agents;
@@ -31,6 +32,10 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IHouseService, HouseService>();
 builder.Services.AddTransient<IAgentService, AgentService>();
 builder.Services.AddTransient<IStatisticsService, StatisticsService>();
+
+builder.Services.AddAutoMapper(
+    typeof(IHouseService).Assembly,
+    typeof(HomeController).Assembly);
 
 builder.Services.AddControllersWithViews(options =>
 {

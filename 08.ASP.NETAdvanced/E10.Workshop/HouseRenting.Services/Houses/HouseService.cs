@@ -1,5 +1,8 @@
 ﻿namespace HouseRenting.Services.Houses
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+
     using Data;
     using Data.Entities;
     using Services.Users;
@@ -10,36 +13,31 @@
     {
         private readonly HouseRentingDbContext data;
         private readonly IUserService userService;
+        private readonly IMapper mapper;
 
         public HouseService(
             HouseRentingDbContext _data,
-            IUserService _userService)
+            IUserService _userService,
+            IMapper _mapper)
         {
             data = _data;
             userService = _userService;
+            mapper = _mapper;
         }
 
         public IEnumerable<HouseIndexServiceModel> LastThreeHouses()
         {
             return this.data.Houses
                 .OrderByDescending(c => c.Id)
-                .Select(c => new HouseIndexServiceModel
-                {
-                    Id = c.Id,
-                    Title = c.Title,
-                    Address = c.Address,
-                    ImageUrl = c.ImageUrl
-                }).Take(3);
+                .ProjectTo<HouseIndexServiceModel>(this.mapper.ConfigurationProvider)
+                .Take(3);
         }
 
         public IEnumerable<HouseCategoryServiceModel> AllCategories()
         {
             return this.data.Categories
-                .Select(c => new HouseCategoryServiceModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                }).ToList();
+                .ProjectTo<HouseCategoryServiceModel>(this.mapper.ConfigurationProvider)
+                .ToList();
         }
 
         public bool CategoryExists(int categoryId)
@@ -103,15 +101,7 @@
             var houses = housesQuery
                 .Skip((currentPage - 1) * housesPerPage)
                 .Take(housesPerPage)
-                .Select(h => new HouseServiceModel
-                {
-                    Id = h.Id,
-                    Title = h.Title,
-                    Address = h.Address,
-                    ImageUrl = h.ImageUrl,
-                    IsRented = h.RenterId != null,
-                    PricePerMonth = h.PricePerMonth
-                })
+                .ProjectTo<HouseServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
 
             var totalHouses = housesQuery.Count();
@@ -133,16 +123,20 @@
         {
             var houses = this.data.Houses
                 .Where(h => h.AgentId == agentId)
+                .ProjectTo<HouseServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
-            return ProjectToModel(houses);
+
+            return houses;
         }
 
         public IEnumerable<HouseServiceModel> AllHousesByUserId(string userId)
         {
             var houses = this.data.Houses
                 .Where(h => h.RenterId == userId)
+                .ProjectTo<HouseServiceModel>(this.mapper.ConfigurationProvider)
                 .ToList();
-            return ProjectToModel(houses);
+
+            return houses;
         }
 
         public bool Exists(int id)
@@ -253,22 +247,6 @@
             var house = this.data.Houses.Find(houseId);
             house.RenterId = null;
             this.data.SaveChanges();
-        }
-
-        private List<HouseServiceModel> ProjectToModel(List<House> houses)
-        {
-            var resultHouses = houses
-                .Select(h => new HouseServiceModel()
-                {
-                    Id = h.Id,
-                    Title = h.Title,
-                    Address = h.Address,
-                    ImageUrl = h.ImageUrl,
-                    PricePerMonth = h.PricePerMonth,
-                    IsRented = h.RenterId != null
-                })
-                .ToList();
-            return resultHouses;
         }
     }
 }

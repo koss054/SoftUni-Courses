@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using AutoMapper;
 
     using Models.Houses;
     using Infrastructure;
@@ -13,13 +14,16 @@
     {
         private readonly IHouseService houseService;
         private readonly IAgentService agentService;
+        private readonly IMapper mapper;
 
         public HousesController(
             IHouseService _houseService,
-            IAgentService _agentService)
+            IAgentService _agentService,
+            IMapper _mapper)
         {
             houseService = _houseService;
             agentService = _agentService;
+            mapper = _mapper;
         }
 
         public IActionResult Index()
@@ -140,16 +144,10 @@
 
             var house = this.houseService.HouseDetailsById(id);
             var houseCategoryId = this.houseService.GetHouseCategoryId(house.Id);
-            var houseModel = new HouseFormModel()
-            {
-                Title = house.Title,
-                Address = house.Address,
-                Description = house.Description,
-                ImageUrl = house.ImageUrl,
-                PricePerMonth = house.PricePerMonth,
-                CategoryId = houseCategoryId,
-                Categories = this.houseService.AllCategories()
-            };
+
+            var houseModel = this.mapper.Map<HouseFormModel>(house);
+            houseModel.CategoryId = houseCategoryId;
+            houseModel.Categories = this.houseService.AllCategories();
 
             return View(houseModel);
         }
@@ -202,12 +200,7 @@
             }
 
             var house = this.houseService.HouseDetailsById(id);
-            var model = new HouseDetailsViewModel()
-            {
-                Title = house.Title,
-                Address = house.Address,
-                ImageUrl = house.ImageUrl
-            };
+            var model = this.mapper.Map<HouseDetailsViewModel>(house);
 
             return View(model);
         }
