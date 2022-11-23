@@ -132,7 +132,8 @@
                 return BadRequest();
             }
 
-            if (!this.houseService.HasAgentWithId(id, this.User.Id()))
+            if (!this.houseService.HasAgentWithId(id, this.User.Id()) &&
+                !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -162,7 +163,8 @@
                 return this.View();
             }
 
-            if (!this.houseService.HasAgentWithId(id, this.User.Id()))
+            if (!this.houseService.HasAgentWithId(id, this.User.Id()) &&
+                !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -193,7 +195,8 @@
                 return BadRequest();
             }
 
-            if (!this.houseService.HasAgentWithId(id, this.User.Id()))
+            if (!this.houseService.HasAgentWithId(id, this.User.Id()) &&
+                !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -218,7 +221,8 @@
                 return BadRequest();
             }
 
-            if (!this.houseService.HasAgentWithId(model.Id, this.User.Id()))
+            if (!this.houseService.HasAgentWithId(model.Id, this.User.Id()) &&
+                !this.User.IsAdmin())
             {
                 return Unauthorized();
             }
@@ -236,7 +240,8 @@
                 return BadRequest();
             }
 
-            if (this.agentService.ExistsById(this.User.Id()))
+            if (this.agentService.ExistsById(this.User.Id()) &&
+                !this.User.IsAdmin())
             {
                 return Unauthorized(id);
             }
