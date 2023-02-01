@@ -24,11 +24,13 @@ table {
 
 table thead tr th {
     background-color: lightgray;
+    text-align: left;
+    padding: 5px 10px;
 }
 
 tbody tr td {
-    padding-left: 10px;
     border: 1px solid lightgray;
+    padding: 5px 10px;
 }
 
 tbody tr:nth-child(odd) {
