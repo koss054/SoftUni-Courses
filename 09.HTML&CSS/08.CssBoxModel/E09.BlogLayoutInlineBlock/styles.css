@@ -1,0 +1,42 @@
+html {
+    font-family: Helvetica, sans-serif;
+}
+
+body {
+    background-color: rgb(238, 238, 238);
+    line-height: 1.5;
+    color: rgb(51, 51, 51);
+}
+
+h1, h2 {
+    font-family: serif;
+    letter-spacing: 0.5px;
+    font-weight: 800;
+    margin-top: 50px;
+    margin-bottom: -5px;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+article {
+    margin: 25px 100px 25px 25px;
+    width: 55%;
+}
+
+article img {
+    width: 450px;
+    height: 325px;
+}
+
+aside {
+    position: fixed;
+    left: 60%;
+    top: 10px;
+    width: 300px;
+}
+
+aside ul {
+    text-indent: 10px;
+}
