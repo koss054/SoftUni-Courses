@@ -1,0 +1,44 @@
+html {
+    font-family: Helvetica, sans-serif;
+}
+
+body {
+    margin: 75px;
+}
+
+header span {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 30px;
+    margin-right: 100px;
+}
+
+header nav {
+    display: inline-block;
+}
+
+header nav ul li {
+    display: inline-block;
+    list-style: none;
+    text-decoration: none;
+    color: green;
+    margin-right: 30px;
+}
+
+hr {
+    height: 2px;
+    margin: 30px 0;
+    background-color: black;
+}
+
+main h1 {
+    font-family: serif;
+    letter-spacing: 1.02px;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+main p {
+    margin: 25px 0;
+    line-height: 20px;
+}
