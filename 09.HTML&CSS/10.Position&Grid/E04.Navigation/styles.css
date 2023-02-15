@@ -1,0 +1,109 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 30px 100px;
+}
+
+a {
+    color: rgb(0, 102, 0);
+    text-decoration: none;
+    font-family: sans-serif;
+}
+
+body {
+    background-color: rgb(238, 238, 238);
+}
+
+body > header {
+    position: relative;
+    height: 65px;
+}
+
+hr {
+    height: 3px;
+    background-color: black;
+}
+
+main {
+    width: 70%;
+    display: inline-block;
+}
+
+img {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+}
+
+img#first-img {
+    float: left;
+    margin: 0 1rem 1rem 0;
+}
+
+img#second-img {
+    float: right;
+    margin: 0 0 1rem 1rem;
+}
+
+blockquote {
+    font-family: Georgia, serif;
+    position: relative;
+    border-left: 5px solid lightgray;
+    padding-left: 2rem;
+    font-style: italic;
+    color: gray;
+    width: 145rem;
+}
+
+h1, h2, h3 {
+    font-family: Georgia, serif;
+    font-size: 1em;
+    margin-top: 3rem;
+}
+
+header > p {
+    text-transform: uppercase;
+    font-size: 32px;
+    font-weight: 600;
+    font-family: sans-serif;
+    display: inline-block;
+}
+
+header > nav {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    transform: translate(0px, -50%);
+}
+
+header nav ul li {
+    list-style: none;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+section p {
+    font-family: sans-serif;
+    letter-spacing: -0.7px;
+    line-height: 1.4;
+}
+
+aside {
+    display: inline-block;
+    position: fixed;
+    width: 20%;
+    margin-left: 3rem;
+}
+
+.text-with-quote {
+    display: flex;
+}
+
+.text-with-quote span {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
