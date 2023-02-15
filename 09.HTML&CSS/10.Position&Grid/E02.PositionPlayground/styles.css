@@ -1,0 +1,37 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css");
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+div.viewport {
+    height: 50vh;
+    position: relative;
+}
+
+div.viewport:nth-child(odd) {
+    background: linear-gradient(to right,#185da1, #43d4a6);
+}
+
+div.viewport:nth-child(even) {
+    background: linear-gradient(to right,#ad3378, #d78511);
+}
+
+section.card {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+section.card img {
+    width: 225px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
