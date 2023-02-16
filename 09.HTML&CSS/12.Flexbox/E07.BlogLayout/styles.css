@@ -1,0 +1,72 @@
+div.page {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+body {
+    background-color: rgb(238, 238, 238);
+}
+
+img {
+    background-color: rgb(255, 255, 255);
+}
+
+blockquote {
+    font-family: Georgia, serif;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(0, 153, 0);
+}
+
+h2, h3 {
+    font-family: Georgia, serif;
+}
+
+/* Extra shtuff */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 5rem;
+}
+
+header {
+    border-bottom: 2px solid black;
+    flex-basis: 100%;
+}
+
+header p {
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 30px;
+    font-family: sans-serif;
+}
+
+article {
+    flex-basis: 65%;
+    margin-right: 2rem;
+}
+
+article img {
+    border: 5px solid black;
+    padding: 10px;
+}
+
+article img.right-float {
+    float: right;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+article img.left-float {
+    float: left;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+}
+
+aside {
+    flex-basis: 5%;
+}
