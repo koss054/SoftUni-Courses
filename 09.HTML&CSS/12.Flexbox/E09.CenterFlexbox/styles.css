@@ -1,0 +1,26 @@
+body {
+    background-color: rgb(238, 238, 238);
+    display: flex;
+}
+
+div.card {
+    background-color: rgb(255, 255, 255);
+}
+
+/* Extra shtuff */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+div.card {
+    padding: 0 1rem 1rem 1rem;
+    width: 360px;
+    box-shadow: 0px 0px 10px 2px #0000005c;
+}
