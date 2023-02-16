@@ -1,0 +1,23 @@
+html {
+    font-family: Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+h2 {
+    font-family: Georgia, serif;
+    line-height: 1.2;
+}
+
+section {
+    /* Not necessary for judge */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* Required for judge */
+    display: flex;
+    justify-content: space-between;
+    max-width: 70vw;
+    gap: 5rem;
+}
