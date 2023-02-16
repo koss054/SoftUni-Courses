@@ -1,0 +1,46 @@
+body {
+    display: flex;
+    background-color: rgb(238, 238, 238);
+    height: 100vh;
+    font-family: Helvetica, sans-serif;
+}
+
+footer {
+    color: rgb(255, 255, 255);
+    background-color: rgb(102, 102, 102);
+}
+
+/* Extra shtuff */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    flex-direction: column;
+}
+
+header {
+    flex-basis: 10%;
+    border-bottom: 2px solid black;
+}
+
+header p {
+    font-weight: 600;
+    font-size: 30px;
+    text-transform: uppercase;
+    padding: 0.5rem 2rem 0 2rem;
+}
+
+main {
+    flex-basis: 80%;
+    padding: 2rem;
+}
+
+footer {
+    flex-basis: 5%;
+}
+
+footer p {
+    padding-left: 2rem;
+}
