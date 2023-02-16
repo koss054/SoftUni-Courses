@@ -18,7 +18,7 @@ li {
     border: 1rem solid black;
     padding: 2rem 0;
     justify-content: center;
-    box-shadow: 0px 0px 0px black;
+    box-shadow: 0px 0px 10px 2px #00000094;
 }
 
 li img {
