@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+}
+
+div {
+    display: flex;
+    max-width: 65vw;
+    justify-content: center;
+    align-items: center;
+}
+
+section {
+    display: flex;
+}
+
+span {
+    border: 1px black solid;
+}
+
+section.notes {
+    flex-direction: column;
+}
+
+/* Not for judge, just styling */
+span {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+section {
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+section.week span {
+    height: 15vh;
+    flex: 1;
+}
+
+section.week span:nth-child(1) {
+    flex-basis: 100%;
+}
+
+section.week span:nth-child(7) {
+    flex-basis: 100%;
+}
+
+section.notes {
+    flex-wrap: nowrap;
+}
+
+section.notes span {
+    padding-top: 10px;
+    flex-basis: 100%;
+    text-align: center;
+    width: 10rem;
+}
+
+div {
+    align-items: stretch;
+}
