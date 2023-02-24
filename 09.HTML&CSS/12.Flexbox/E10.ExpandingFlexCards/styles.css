@@ -1,0 +1,35 @@
+body {
+    background-color: rgb(238, 238, 238);
+    display: flex;
+    justify-content: center;
+}
+
+section.container {
+    display: flex;
+}
+
+/* Extra shtuff */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    align-items: center;
+}
+
+section.container {
+    gap: 1rem;
+    width: 75vw;
+}
+
+section.container img:nth-child(1),
+section.container img:nth-child(3),
+section.container img:nth-child(4) {
+    max-width: 100%;
+}
+
+section.container img:nth-child(2) {
+    width: 70vw;
+}

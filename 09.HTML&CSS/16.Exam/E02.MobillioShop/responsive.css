@@ -1,0 +1,104 @@
+@media (max-width: 600px) {
+    .home-main {
+        padding-bottom: 4rem;
+    }
+
+    /* Navbar */
+    .home-container01,
+    .home-left,
+    .home-right {
+        display: none;
+    }
+
+    .navbar-logo-title {
+        margin-left: 0;
+    }
+
+    /* Hero section */
+    .home-main .section-container {
+        padding-top: 3rem;
+    }
+
+    .home-hero1 {
+        flex-direction: column;
+    }
+
+    .home-container03 .home-text12 {
+        margin: auto;
+        margin-bottom: 1.5rem;
+    }
+
+    .home-container03 .home-container04 {
+        margin: auto;
+        margin-bottom: 3rem;
+    }
+
+    .home-container03 .home-btn-group {
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    /* Shop by categories section */
+    .home-cards-container {
+        grid-gap: 0;
+        justify-content: center;
+    }
+
+    .home-cards-container .category-card-category-card {
+        flex-basis: 50%;
+        margin-bottom: 1rem;
+    }
+
+    .home-cards-container .category-card-category-card  img {
+        width: 250px;
+        height: 250px;
+    }
+
+    /* Mobillio furniture section */
+    .home-container06 {
+        padding: 0 12px;
+    }
+   
+
+    /* Lookbooks section */
+    .home-full-width-banner {
+        padding-top: 2rem!important;
+        flex-direction: column;
+    }
+
+    .home-full-width-banner .home-left4 .home-content{
+        margin: 2rem 0 1rem 0;
+    }
+
+    .home-full-width-banner .home-text30 {
+        width: 100%;
+    }
+
+    .home-full-width-banner .home-left4 .home-btn {
+        margin-bottom: 2rem;
+    }
+
+    .home-full-width-banner img {
+        width: 100%;
+    }
+
+    /* Our blog section */
+    .home-container08 .blog-post-card-blog-post-card {
+        max-width: unset;
+    }
+
+    /* Footer */
+    .home-footer1 {
+        flex-direction: column-reverse;
+        padding-bottom: 1rem;
+        padding-top: 4rem;
+    }
+
+    .home-footer1 .home-container09 {
+        padding-top: 2rem;
+    }
+
+    .home-footer1 .home-links-container {
+        flex-direction: column;
+    }
+}

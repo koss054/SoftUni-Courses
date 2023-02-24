@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css');
+
+/* General */
+* {
+    box-sizing: border-box;
+    font-family: Montserrat, sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Page styling */
+main {
+    background-color: #ffe9bc;
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+    padding: 2rem 2rem 2rem 4rem;
+}
+
+section.thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+article.post {
+    flex-basis: 45%;
+    border: 1px solid black;
+    border-radius: 1rem;
+    margin: 0 2rem 1rem 0;
+    height: 180px;
+    background-color: #66545e;
+    box-shadow: 0px 4px 20px 20px #0000003d;
+    cursor: pointer;
+}
+
+article.post img {
+    object-fit: cover;
+    width: 100%;
+    height: 150px;
+    border-radius: 1rem 1rem 0 0;
+}
+
+article.post p {
+    margin: 0;
+    margin-left: 6px;
+    color: white;
+    font-weight: bold;
+}
+
+aside {
+    flex-basis: 35%;
+}
+
+aside a {
+    text-decoration: none;
+    color: black;
+}
+
+aside p {
+    font-size: 14px;
+}
+
+aside ul.other {
+    list-style: none;
+    padding-left: 0;
+}
+
+aside ul.other li {
+    cursor: pointer;
+}
+
+aside ul.other li p {
+    margin: 0;
+    margin-bottom: 0.75rem;
+}
+
+aside ul.other i {
+    float: left;
+    margin-right: 6px;
+}

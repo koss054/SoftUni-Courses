@@ -1,0 +1,20 @@
+body {
+    background-color: rgb(238, 238, 238);
+}
+
+div {
+    background-color: rgb(255, 255, 255);
+}
+
+button {
+    background-color: rgb(0, 153, 0);
+}
+
+h2 {
+    font-family: Georgia, serif;
+    font-size: 1em;
+}
+
+html {
+    font-family: Helvetica, sans-serif;
+}
