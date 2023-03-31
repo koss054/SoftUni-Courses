@@ -20,7 +20,6 @@ function attachEvents() {
             }
         })
         .then(response => response.json())
-        .then(json => console.log(json))
     })
 
     refreshBtn.addEventListener("click", () => {
