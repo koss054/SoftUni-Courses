@@ -1,80 +1,72 @@
 function attachEvents() {
-    const BASE_URL = "http://localhost:3030/jsonstore/phonebook";
-    const phonebookElement = document.getElementById("phonebook");
+    const BASE_URL = "http://localhost:3030/jsonstore/phonebook/";
+    const phoneBookElement = document.getElementById("phonebook");
     const personInputElement = document.getElementById("person");
     const phoneNumberInputElement = document.getElementById("phone");
     const loadBtn = document.getElementById("btnLoad");
     const createBtn = document.getElementById("btnCreate");
 
-    loadBtn.addEventListener("click", () => {
-        fetch(BASE_URL)
-            .then((response) => response.json())
-            .then((info) => {
-                phonebookElement.innerHTML = "";
-                for (const row in info) {
-                    createPhonebookEntryElement(
-                        info[row].person,
-                        info[row].phone
-                    );
-                }
-            });
-    });
+    loadBtn.addEventListener("click", loadEntries);
+    createBtn.addEventListener("click", createEntry);
 
-    createBtn.addEventListener("click", () => {
-        const entryObj = {
-            person: personInputElement.value,
-            phone: phoneNumberInputElement.value,
-        };
+    async function loadEntries() {
+        try {
+            const phoneBookResponse = await fetch(BASE_URL);
+            let phoneBookData = await phoneBookResponse.json();
 
-        fetch(BASE_URL, {
-            method: "POST",
-            body: JSON.stringify(entryObj),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8",
-            },
-        }).then((response) => response.json());
+            phoneBookData = Object.values(phoneBookData);
+            phoneBookElement.innerHTML = "";
 
-        personInputElement.value = "";
-        phoneNumberInputElement.value = "";
-    });
+            for (const { phone, person, _id } of phoneBookData) {
+                const li = document.createElement("li");
+                const button = document.createElement("button");
 
-    async function createPhonebookEntryElement(personName, phoneNumber) {
-        const entryId = await getEntryId(phoneNumber);
-        let li = document.createElement("li");
-        let deleteBtn = document.createElement("button");
+                button.id = _id;
+                button.textContent = "Delete";
+                button.addEventListener("click", deleteEntry);
 
-        li.textContent = `${personName} ${phoneNumber}`;
-        deleteBtn.textContent = "Delete";
+                li.textContent = `${person}: ${phone}`;
+                li.appendChild(button);
 
-        deleteBtn.addEventListener("click", () => {
-            phonebookElement.removeChild(li);
-            fetch(`${BASE_URL}/${entryId}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-            })
-                .then((response) => response.json())
-                .then((info) => console.log(info));
-        });
-
-        li.appendChild(deleteBtn);
-
-        phonebookElement.appendChild(li);
+                phoneBookElement.appendChild(li);
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
-    async function getEntryId(phoneNumber) {
-        let entryId = await fetch(BASE_URL)
-            .then((response) => response.json())
-            .then((info) => {
-                for (const row in info) {
-                    if (info[row].phone === phoneNumber) {
-                        return info[row]._id;
-                    }
-                }
-            });
+    async function createEntry() {
+        const person = personInputElement.value;
+        const phone = phoneNumberInputElement.value;
+        const httpHeaders = {
+            method: "POST",
+            body: JSON.stringify({ person, phone }),
+        };
 
-        return entryId;
+        fetch(BASE_URL, httpHeaders)
+            .then((response) => response.json())
+            .then(() => {
+                loadEntries();
+                personInputElement.value = "";
+                phoneNumberInputElement.value = "";
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    async function deleteEntry() {
+        const id = this.id;
+        const httpHeaders = {
+            method: "DELETE",
+        };
+
+        fetch(`${BASE_URL}${id}`, httpHeaders)
+            .then((response) => response.json())
+            .then(loadEntries)
+            .catch((error) => {
+                console.error(error);
+            });
     }
 }
 
