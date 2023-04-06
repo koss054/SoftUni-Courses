@@ -1,155 +1,175 @@
 window.addEventListener("load", solve);
 
 function solve() {
-    const firstNameElement = document.getElementById("first-name");
-    const lastNameElement = document.getElementById("last-name");
-    const ageElement = document.getElementById("age");
-    const storyTitleElement = document.getElementById("story-title");
-    const storyElement = document.getElementById("story");
-    const previewElement = document.querySelector("#preview-list h3");
+    const previewListElement = document.getElementById("preview-list");
+    const firstNameInputElement = document.getElementById("first-name");
+    const lastNameInputElement = document.getElementById("last-name");
+    const ageInputElement = document.getElementById("age");
+    const storyTitleInputElement = document.getElementById("story-title");
+    const genreSelectElement = document.getElementById("genre");
+    const storyTextareaElement = document.getElementById("story");
+    const publishBtn = document.getElementById("form-btn");
 
-    let genre = "Disturbing";
-    const genreSelection = document.getElementById("genre");
-    genreSelection.addEventListener("change", () => {
-        genre = genreSelection.selectedOptions[0].text;
-    });
+    let saveBtn, editBtn, deleteBtn;
 
-    const publishButton = document.getElementById("form-btn");
-    publishButton.addEventListener("click", publish);
+    publishBtn.addEventListener("click", generateStory);
 
-    function publish() {
-        const firstName = firstNameElement.value;
-        const lastName = lastNameElement.value;
-        const age = Number(ageElement.value);
-        const storyTitle = storyTitleElement.value;
-        const story = storyElement.value;
+    function generateStory() {
+        if (!areInputsInvalid()) {
+            clearPreviewList();
 
-        if (firstName && lastName && age && storyTitle && genre && story) {
-            publishButton.disabled = true;
-            generateStoryHtml(
-                firstName,
-                lastName,
-                age,
-                storyTitle,
-                genre,
-                story
+            const liElement = createElement(
+                "li",
+                previewListElement,
+                "story-info"
             );
+            const articleElement = createElement("article", liElement);
+            const saveButton = createElement(
+                "button",
+                liElement,
+                "save-btn",
+                "Save Story"
+            );
+            const editButton = createElement(
+                "button",
+                liElement,
+                "edit-btn",
+                "Edit Story"
+            );
+            const deleteButton = createElement(
+                "button",
+                liElement,
+                "delete-btn",
+                "Delete Story"
+            );
+
+            publishBtn.disabled = true;
+            saveButton.disabled = false;
+            editButton.disabled = false;
+            deleteButton.disabled = false;
+
+            const h4Content = `Name: ${firstNameInputElement.value} ${lastNameInputElement.value}`;
+            const ageContent = `Age: ${ageInputElement.value}`;
+            const titleContent = `Title: ${storyTitleInputElement.value}`;
+            const genreContent = `Genre: ${genreSelectElement.value}`;
+            const storyContent = storyTextareaElement.value;
+
+            createElement("h4", articleElement, "", h4Content);
+            createElement("p", articleElement, "", ageContent);
+            createElement("p", articleElement, "", titleContent);
+            createElement("p", articleElement, "", genreContent);
+            createElement("p", articleElement, "", storyContent);
+
+            saveButton.addEventListener("click", saveStory);
+            editButton.addEventListener("click", editStory);
+            deleteButton.addEventListener("click", deleteStory);
+
+            saveBtn = saveButton;
+            editBtn = editButton;
+            deleteBtn = deleteButton;
+
+            clearInputFields();
         }
     }
 
-    function generateStoryHtml(
-        firstName,
-        lastName,
-        age,
-        storyTitle,
-        genre,
-        story
+    function createElement(
+        elementType,
+        elementParent,
+        elementClass,
+        elementContent
     ) {
-        const liElement = document.createElement("li");
-        liElement.classList.add("story-info");
+        const htmlElement = document.createElement(elementType);
+        if (elementType === "input") {
+            htmlElement.value = elementContent;
+        } else {
+            htmlElement.textContent = elementContent;
+        }
 
-        // Article
-        const articleElement = document.createElement("article");
+        if (elementParent) {
+            elementParent.appendChild(htmlElement);
+        }
 
-        const headerElement = document.createElement("h4");
-        headerElement.textContent = `Name: ${firstName} ${lastName}`;
+        if (elementClass) {
+            htmlElement.classList.add(elementClass);
+        }
 
-        const ageParagraphElement = document.createElement("p");
-        ageParagraphElement.textContent = `Age: ${age}`;
-
-        const titleParagraphElement = document.createElement("p");
-        titleParagraphElement.textContent = `Title: ${storyTitle}`;
-
-        const genreParagraphElement = document.createElement("p");
-        genreParagraphElement.textContent = `Genre: ${genre}`;
-
-        const storyParagraphElement = document.createElement("p");
-        storyParagraphElement.textContent = story;
-
-        clearInputs();
-
-        articleElement.appendChild(headerElement);
-        articleElement.appendChild(ageParagraphElement);
-        articleElement.appendChild(titleParagraphElement);
-        articleElement.appendChild(genreParagraphElement);
-        articleElement.appendChild(storyParagraphElement);
-
-        // Buttons
-        const saveButtonElement = document.createElement("button");
-        const editButtonElement = document.createElement("button");
-        const deleteButtonElement = document.createElement("button");
-
-        saveButtonElement.classList.add("save-btn");
-        editButtonElement.classList.add("edit-btn");
-        deleteButtonElement.classList.add("delete-btn");
-
-        saveButtonElement.textContent = "Save Story";
-        editButtonElement.textContent = "Edit Story";
-        deleteButtonElement.textContent = "Delete Story";
-
-        saveButtonElement.addEventListener("click", saveStory);
-        editButtonElement.addEventListener("click", editStory);
-        deleteButtonElement.addEventListener("click", deleteStory);
-
-        // Append all elements to parent li element
-        liElement.appendChild(articleElement);
-        liElement.appendChild(saveButtonElement);
-        liElement.appendChild(editButtonElement);
-        liElement.appendChild(deleteButtonElement);
-
-        previewElement.insertAdjacentElement("afterend", liElement);
+        return htmlElement;
     }
 
-    function clearInputs() {
-        firstNameElement.value = "";
-        lastNameElement.value = "";
-        ageElement.value = "";
-        storyTitleElement.value = "";
-        storyElement.value = "";
+    function clearPreviewList() {
+        previewListElement.innerHTML = "";
+        createElement("h3", previewListElement, "", "Preview");
+    }
+
+    function clearInputFields() {
+        firstNameInputElement.value = "";
+        lastNameInputElement.value = "";
+        ageInputElement.value = "";
+        storyTitleInputElement.value = "";
+        storyTextareaElement.value = "";
+    }
+
+    function populateInputFields() {
+        const articleElement = document.querySelector(
+            "#preview-list > li > article"
+        );
+
+        const h4Element = articleElement.querySelector("h4");
+        const [ignore, firstName, lastName] = h4Element.textContent.split(" ");
+        firstNameInputElement.value = firstName;
+        lastNameInputElement.value = lastName;
+
+        // Not using the genreElement as the value isn't cleared.
+        // Taking it here since it's between two needed elements.
+        const [ageElement, titleElement, genreElement, storyElement] =
+            articleElement.querySelectorAll("p");
+
+        ageInputElement.value = Number(ageElement.textContent.split(" ")[1]);
+        storyTitleInputElement.value = titleElement.textContent.split(" ")[1];
+        storyTextareaElement.value = storyElement.textContent;
+    }
+
+    function areInputsInvalid() {
+        const isFirstNameInvalid = validateField(firstNameInputElement);
+        const isLastNameInvalid = validateField(lastNameInputElement);
+        const isAgeInvalid = validateField(ageInputElement);
+        const isStoryTitleInvalid = validateField(storyTitleInputElement);
+        const isStoryInvalid = validateField(storyTextareaElement);
+
+        // Returns true if any of the fields are invalid.
+        return (
+            isFirstNameInvalid ||
+            isLastNameInvalid ||
+            isAgeInvalid ||
+            isStoryTitleInvalid ||
+            isStoryInvalid
+        );
+
+        function validateField(field) {
+            return field.value == "";
+        }
     }
 
     function saveStory() {
-        const mainDivElement = document.getElementById("main");
-        mainDivElement.innerHTML = ``;
+        const mainElement = document.getElementById("main");
+        const h1Content = "Your scary story is saved!";
 
-        const h1Element = document.createElement("h1");
-        h1Element.textContent = "Your scary story is saved!";
-
-        mainDivElement.appendChild(h1Element);
+        mainElement.innerHTML = "";
+        createElement("h1", mainElement, "", h1Content);
     }
 
     function editStory() {
-        publishButton.disabled = false;
-        const liElement = document.querySelector("li.story-info");
-        const headerElement = liElement.querySelector("h4");
-        const ageParagraphElement = liElement.querySelector("p:nth-of-type(1)");
-        const titleParagraphElement =
-            liElement.querySelector("p:nth-of-type(2)");
-        const storyParagraphElement =
-            liElement.querySelector("p:nth-of-type(4)");
+        publishBtn.disabled = false;
+        saveBtn.disabled = true;
+        editBtn.disabled = true;
+        deleteBtn.disabled = true;
 
-        const fullName = headerElement.textContent.split(": ");
-        const splitFullName = fullName[1].split(" ");
-        const currentFirstName = splitFullName[0];
-        const currentLastName = splitFullName[1];
-        firstNameElement.value = currentFirstName;
-        lastNameElement.value = currentLastName;
-
-        const currentAge = ageParagraphElement.textContent.split(": ");
-        ageElement.value = Number(currentAge[1]);
-
-        const currentTitle = titleParagraphElement.textContent.split(": ");
-        storyTitleElement.value = currentTitle[1];
-
-        const currentStory = storyParagraphElement.textContent;
-        storyElement.value = currentStory;
-
-        liElement.remove();
+        populateInputFields();
+        clearPreviewList();
     }
 
     function deleteStory() {
-        publishButton.disabled = false;
-        const liElement = document.querySelector("li.story-info");
-        liElement.remove();
+        clearPreviewList();
+        publishBtn.disabled = false;
     }
 }
