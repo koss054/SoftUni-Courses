@@ -1,7 +1,39 @@
 function shoppingList(input) {
-    const initialProducts = input.shift().split("!");
-    let productsInList = {};
-    let highestOrder = 0;
+    class Product {
+        constructor(name, order) {
+            this.name = name;
+            this.order = order;
+        }
+
+        getName() {
+            return this.name;
+        }
+
+        changeName(newName) {
+            this.name = newName;
+        }
+
+        changeOrder(newOrder) {
+            this.order = newOrder;
+        }
+
+        increaseOrder() {
+            this.order++;
+        }
+
+        reduceOrder() {
+            this.order--;
+        }
+
+        getNameWithMatchingOrder(order) {
+            if (this.order === order) {
+                return this.name;
+            } else {
+                return "";
+            }
+        }
+    }
+
     const commandParser = {
         Urgent: urgent,
         Unnecessary: unnecessary,
@@ -9,91 +41,131 @@ function shoppingList(input) {
         Rearrange: rearrange,
     };
 
-    for (let i = 0; i < initialProducts.length; i++) {
-        const product = initialProducts[i];
-        highestOrder = i + 1;
-        productsInList[product] = highestOrder;
+    const increaseCommandKeyword = "increase";
+    const reduceCommandKeyword = "reduce";
+    const startIndex = 0;
+    let highestOrder = startIndex;
+    let productCollection = [];
+    const initialProducts = input.shift().split("!");
+    for (const product of initialProducts) {
+        productCollection.push(new Product(product, highestOrder));
+        highestOrder++;
     }
 
-    for (const inputLine of input) {
-        if (inputLine === "Go Shopping!") {
-            printSortedProducts();
+    for (const line of input) {
+        if (line === "Go Shopping!") {
+            printCollection();
             return;
         }
 
-        const splitLine = inputLine.split(" ");
-        const command = splitLine[0];
-        commandParser[command](...splitLine.splice(1));
+        const tokens = line.split(" ");
+        const command = tokens[0];
+        commandParser[command](...tokens.slice(1));
     }
 
-    function urgent(item) {
-        if (!productsInList.hasOwnProperty(item)) {
-            productsInList[item] = 1;
-            increaseAllProductOrder();
-        }
-    }
-
-    function unnecessary(item) {
-        if (productsInList.hasOwnProperty(item)) {
-            delete productsInList[item];
-        }
-    }
-
-    function correct(oldItem, newItem) {
-        if (productsInList.hasOwnProperty(oldItem)) {
-            productsInList[newItem] = productsInList[oldItem];
-            delete productsInList[oldItem];
-        }
-    }
-
-    function rearrange(item) {
-        if (productsInList.hasOwnProperty(item)) {
+    // Functions used throughout the task.
+    function urgent(productName) {
+        const isItemInList = isProductAlreadyInList(productName);
+        if (!isItemInList) {
+            loopCollectionWithCommand(increaseCommandKeyword, 0);
+            productCollection.unshift(new Product(productName, startIndex));
             highestOrder++;
-            delete productsInList[item];
-            productsInList[item] = highestOrder;
         }
     }
 
-    function increaseAllProductOrder() {
-        highestOrder++;
-        for (const product in productsInList) {
-            productsInList[product] += 1;
+    function unnecessary(productName) {
+        const isItemInList = isProductAlreadyInList(productName);
+        if (isItemInList) {
+            const productIndex = getProductIndex(productName);
+            loopCollectionWithCommand(reduceCommandKeyword, productIndex);
+            productCollection.splice(productIndex, 1);
+            highestOrder--;
         }
     }
 
-    function printSortedProducts() {
-        let sortable = [];
-        let onlyProductsArray = [];
-        for (const product in productsInList) {
-            sortable.push([product, productsInList[product]]);
+    function correct(oldProductName, newProductName) {
+        const isItemInList = isProductAlreadyInList(oldProductName);
+        if (isItemInList) {
+            const productIndex = getProductIndex(oldProductName);
+            productCollection[productIndex].changeName(newProductName);
         }
-
-        sortable.sort((a, b) => a[1] - b[1]);
-        for (const [product, order] of sortable) {
-            onlyProductsArray.push(product);
-        }
-
-        console.log(onlyProductsArray.join(", "));
     }
 
-    function printFinalProducts(sortedArray) {
-        let itemsInList = "";
-        for (const [product, order] of sortedArray) {
-            itemsInList += `${product} `;
+    function rearrange(productName) {
+        const isItemInList = isProductAlreadyInList(productName);
+        if (isItemInList) {
+            const productIndex = getProductIndex(productName);
+            loopCollectionWithCommand(reduceCommandKeyword, productIndex);
+            productCollection.splice(productIndex, 1);
+            productCollection.push(new Product(productName, highestOrder));
         }
-        return itemsInList.trimEnd();
+    }
+
+    function isProductAlreadyInList(productName) {
+        for (const product of productCollection) {
+            if (productName === product.getName()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function getProductIndex(productName) {
+        for (let i = 0; i < productCollection.length; i++) {
+            if (productCollection[i].getName() === productName) {
+                return i;
+            }
+        }
+    }
+
+    function loopCollectionWithCommand(command, startIndex) {
+        switch (command) {
+            case increaseCommandKeyword:
+                for (let i = startIndex; i < productCollection.length; i++) {
+                    productCollection[i].increaseOrder();
+                }
+                break;
+            case reduceCommandKeyword:
+                for (let i = startIndex; i < productCollection.length; i++) {
+                    productCollection[i].reduceOrder();
+                }
+                break;
+        }
+    }
+
+    function printCollection() {
+        let productNameArray = [];
+        let currentIndex = 0;
+
+        while (productCollection.length > 0) {
+            const currentProduct = productCollection[currentIndex];
+            const productName =
+                currentProduct.getNameWithMatchingOrder(currentIndex);
+
+            if (productName !== "") {
+                productCollection.splice(currentIndex, 1);
+                loopCollectionWithCommand(reduceCommandKeyword, startIndex);
+                productNameArray.push(productName);
+                currentIndex = 0;
+            } else {
+                currentIndex++;
+            }
+        }
+
+        console.log(productNameArray.join(", "));
     }
 }
 
-shoppingList([
-    "Tomatoes!Potatoes!Bread",
-    "Unnecessary Milk",
-    "Urgent Tomatoes",
-    "Go Shopping!",
-]);
+// shoppingList([
+//     "Tomatoes!Potatoes!Bread",
+//     "Unnecessary Milk",
+//     "Urgent Tomatoes",
+//     "Go Shopping!",
+// ]);
 
 shoppingList([
-    "Milk!Pepper!Salt!Water!Banana",
+    "Pepper!Water!Milk!Banana",
     "Urgent Salt",
     "Unnecessary Grapes",
     "Correct Pepper Onion",
@@ -101,3 +173,20 @@ shoppingList([
     "Correct Tomatoes Potatoes",
     "Go Shopping!",
 ]);
+
+// function testPrint(collectionToPrint) {
+//     const isCollectionArray =
+//         Object.prototype.toString.call(collectionToPrint) == "[object Array]";
+
+//     if (isCollectionArray) {
+//         console.log("is array");
+//         for (const item of collectionToPrint) {
+//             console.log(item);
+//         }
+//     } else {
+//         console.log("is object");
+//         for (const item in collectionToPrint) {
+//             console.log(collectionToPrint[item]);
+//         }
+//     }
+// }
