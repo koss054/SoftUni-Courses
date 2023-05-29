@@ -3,3 +3,5 @@ function getNumbers(m, n) {
         console.log(i);
     }
 }
+
+getNumbers(10, 25);
