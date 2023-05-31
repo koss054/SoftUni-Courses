@@ -1,0 +1,5 @@
+docker build . `
+-f ./TaskBoard.WebApp/Dockerfile `
+-t koss054/taskboard_app
+
+docker push koss054/taskboard_app
