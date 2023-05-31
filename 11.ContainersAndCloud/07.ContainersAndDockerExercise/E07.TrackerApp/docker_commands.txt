@@ -1,0 +1,9 @@
+docker build . `
+-f Dockerfile `
+-t koss054/tracker-app
+
+docker login
+
+docker push koss054/tracker-app
+
+docker run -it -p 8080:80 --rm --name tracker-app koss054/tracker-app
