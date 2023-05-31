@@ -1,0 +1,6 @@
+docker run `
+-d `
+-p 8080:80 `
+--name my-apache-app `
+-v ${PWD}/E03.ApacheHTTPServer:/usr/local/apache2/htdocs `
+httpd:latest
