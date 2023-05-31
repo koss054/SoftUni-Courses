@@ -1,0 +1,7 @@
+docker compose build
+
+docker compose up
+
+-- if you wanna remove the docker compose up stuff
+-- the pdf file provides a good explanation of how to debug a running container as well 
+docker compose down --rmi all --volumes

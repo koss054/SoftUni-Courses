@@ -12,10 +12,10 @@ COPY ["TaskBoard.Data/TaskBoard.Data.csproj", "TaskBoard.Data/"]
 RUN dotnet restore "TaskBoard.WebApp/TaskBoard.WebApp.csproj"
 COPY . .
 WORKDIR "/src/TaskBoard.WebApp"
-RUN dotnet build "TaskBoard.WebApp.csproj" -c Release -o /app/build
+RUN dotnet build "TaskBoard.WebApp.csproj" -c Debug -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "TaskBoard.WebApp.csproj" -c Release -o /app/publish
+RUN dotnet publish "TaskBoard.WebApp.csproj" -c Debug -o /app/publish
 
 FROM base AS final
 WORKDIR /app
