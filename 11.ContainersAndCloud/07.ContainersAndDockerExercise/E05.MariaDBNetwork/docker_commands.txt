@@ -1,0 +1,17 @@
+docker network create mariadb_network
+
+docker run `
+--name mariadb_server `
+--network mariadb_network `
+-e MARIADB_USER=test-user `
+-e MARIADB_PASSWORD=test-user `
+-e MARIADB_ROOT_PASSWORD=secret-pass `
+-d mariadb:latest
+
+docker run -it `
+--name mariadb_client `
+--network mariadb_network `
+--rm mariadb mariadb `
+-hmariadb_server `
+-utest-user `
+-ptest-user
