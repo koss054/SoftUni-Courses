@@ -1,0 +1,10 @@
+-- after making the Dockerfile for the result
+docker build -t result ./result
+
+-- after making the Dockerfile for the worker
+docker build -t worker ./worker
+
+-- after making the docker-compose.yaml
+docker compose build
+
+docker-compose up -d
