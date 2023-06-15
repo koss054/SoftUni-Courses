@@ -1,0 +1,18 @@
+// Build image with created Dockerfile
+docker build -t web-app .
+
+// Login into Azure
+az login
+
+// Create a resource group and a container registry (cr is put in rg)
+az group create --name "koss054libraryrg" --location westeurope
+az acr create --resource-group koss054libraryrg --name koss054librarycr --sku Basic
+
+// Push the image built from our Dockerfile to the container registry
+docker tag web-app koss054librarycr.azurecr.io/library
+az acr login --name koss054librarycr
+docker push koss054librarycr.azurecr.io/library
+
+// Create Azure context for our docker-compose - fk this... it ain't working... can't recognize the command
+docker context create aci librarycontext
+"docker context create" requires exactly 1 argument.
