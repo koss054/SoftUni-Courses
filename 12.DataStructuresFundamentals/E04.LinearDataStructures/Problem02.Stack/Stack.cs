@@ -8,41 +8,86 @@
     {
         private class Node
         {
-            
+            public T Element { get; set; }
+            public Node Next { get; set; }
+
+            public Node(T element, Node next)
+            {
+                Element = element;
+                Next = next;
+            }
+
+            public Node(T element)
+                : this(element, null)
+            {
+            }
         }
 
         private Node top;
 
-        public int Count => throw new System.NotImplementedException();
+        public int Count { get; private set; }
 
         public void Push(T item)
         {
-            throw new NotImplementedException();
+            var node = new Node(item, top);
+            top = node;
+            Count++;
         }
 
         public T Pop()
         {
-            throw new System.NotImplementedException();
+            EnsureNotEmpty();
+
+            var topNodeElement = top.Element;
+            var newTop = top.Next;
+
+            top.Next = null;
+            top = newTop;
+            Count--;
+
+            return topNodeElement;
         }
 
         public T Peek()
         {
-            throw new System.NotImplementedException();
+            EnsureNotEmpty();
+            return top.Element;
         }
+            
 
         public bool Contains(T item)
         {
-            throw new System.NotImplementedException();
+            var node = top;
+
+            while (node != null)
+            {
+                if (node.Element.Equals(item))
+                    return true;
+
+                node = node.Next;
+            }
+
+            return false;
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            var node = top;
+
+            while (node != null)
+            {
+                yield return node.Element;
+                node = node.Next;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
+
+        void EnsureNotEmpty()
         {
-            throw new NotImplementedException();
+            if (top == null)
+                throw new InvalidOperationException();
         }
     }
 }
