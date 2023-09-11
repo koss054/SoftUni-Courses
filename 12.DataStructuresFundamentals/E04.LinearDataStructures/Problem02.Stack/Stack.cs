@@ -23,14 +23,14 @@
             }
         }
 
-        private Node top;
+        private Node _top;
 
         public int Count { get; private set; }
 
         public void Push(T item)
         {
-            var node = new Node(item, top);
-            top = node;
+            var node = new Node(item, _top);
+            _top = node;
             Count++;
         }
 
@@ -38,11 +38,11 @@
         {
             EnsureNotEmpty();
 
-            var topNodeElement = top.Element;
-            var newTop = top.Next;
+            var topNodeElement = _top.Element;
+            var newTop = _top.Next;
 
-            top.Next = null;
-            top = newTop;
+            _top.Next = null;
+            _top = newTop;
             Count--;
 
             return topNodeElement;
@@ -51,13 +51,13 @@
         public T Peek()
         {
             EnsureNotEmpty();
-            return top.Element;
+            return _top.Element;
         }
             
 
         public bool Contains(T item)
         {
-            var node = top;
+            var node = _top;
 
             while (node != null)
             {
@@ -72,7 +72,7 @@
 
         public IEnumerator<T> GetEnumerator()
         {
-            var node = top;
+            var node = _top;
 
             while (node != null)
             {
@@ -86,7 +86,7 @@
 
         void EnsureNotEmpty()
         {
-            if (top == null)
+            if (_top == null)
                 throw new InvalidOperationException();
         }
     }
