@@ -92,6 +92,10 @@
             var oldHead = _head;
 
             _head = oldHead.Next;
+
+            if (_head != null)
+                _head.Previous = null;
+
             Count--;
 
             return oldHead.Element;
