@@ -49,7 +49,7 @@
             Count++;
 
             if (_tail == null)
-                SetTail();
+                _tail = node;
         }
 
         public void AddLast(T item)
@@ -132,16 +132,6 @@
         {
             if (Count == 0)
                 throw new InvalidOperationException();
-        }
-
-        void SetTail()
-        {
-            var node = _head;
-
-            while (node.Next != null)
-                node = node.Next;
-
-            _tail = node;
         }
     }
 }
