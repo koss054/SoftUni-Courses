@@ -26,20 +26,18 @@ namespace Exam.TaskManager
             if (!_allTasks.ContainsKey(taskId))
             {
                 throw new ArgumentException();
-
             }
 
-            var task = _allTasks[taskId];
-            _allTasks.Remove(taskId);
-
-            if (_executedTasks.Contains(task))
+            var taskToRemove = _allTasks[taskId];
+            if (_executedTasks.Contains(taskToRemove))
             {
-                _executedTasks.Remove(task);
+                _executedTasks.Remove(taskToRemove);
             }
             else
             {
-                _taskQueue.Remove(task);
+                _taskQueue.Remove(taskToRemove);
             }
+            _allTasks.Remove(taskId);
         }
 
         public Task ExecuteTask()
@@ -49,33 +47,27 @@ namespace Exam.TaskManager
                 throw new ArgumentException();
             }
 
-            var task = _taskQueue.First.Value;
+            var taskToExecute = _taskQueue.First();
             _taskQueue.RemoveFirst();
+            _executedTasks.Add(taskToExecute);
 
-            _executedTasks.Add(task);
-
-            return task;
+            return taskToExecute;
         }
 
         public IEnumerable<Task> GetAllTasksOrderedByEETThenByName()
         {
-            return _allTasks
-                .Values
+            var tasksToReturn = _allTasks.Values
                 .OrderByDescending(x => x.EstimatedExecutionTime)
-                .ThenBy(x => x.Name);
+                .ThenBy(x => x.Name.Length)
+                .ToList();
 
+            return tasksToReturn;
         }
 
         public IEnumerable<Task> GetDomainTasks(string domain)
         {
-            var tasks = _taskQueue.Where(x => x.Domain == domain).ToList();
-
-            if (tasks.Count == 0)
-            {
-                throw new ArgumentException();
-            }
-
-            return tasks;
+            var tasksToReturn = _taskQueue.Where(x => x.Domain == domain).ToList();
+            return tasksToReturn.Count > 0 ? tasksToReturn : throw new ArgumentException();
         }
 
         public Task GetTask(string taskId)
@@ -90,9 +82,12 @@ namespace Exam.TaskManager
 
         public IEnumerable<Task> GetTasksInEETRange(int lowerBound, int upperBound)
         {
-            return _taskQueue
+            var tasksToReturn = _taskQueue
                 .Where(x => x.EstimatedExecutionTime >= lowerBound
-                         && x.EstimatedExecutionTime <= upperBound);
+                         && x.EstimatedExecutionTime <= upperBound)
+                .ToList();
+
+            return tasksToReturn;
         }
 
         public void RescheduleTask(string taskId)
@@ -102,14 +97,14 @@ namespace Exam.TaskManager
                 throw new ArgumentException();
             }
 
-            var task = _allTasks[taskId];
-            _executedTasks.Remove(task);
-            _taskQueue.AddLast(task);
+            var taskToReschedule = _executedTasks.First(x => x.Id == taskId);
+            _taskQueue.AddLast(taskToReschedule);
+            _executedTasks.Remove(taskToReschedule);
         }
 
         public int Size()
         {
-            return _allTasks.Count;
+            return _taskQueue.Count;
         }
     }
 }
